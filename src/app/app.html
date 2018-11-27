@@ -1,0 +1,51 @@
+<ion-menu [content]="content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>
+	      Menü
+      </ion-title>
+      <ion-buttons end>
+	      <button icon-only ion-button menuClose (click)="openInfoPage()">
+		      <ion-icon name="ios-information-circle-outline"></ion-icon>
+	      </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+
+
+<ion-content>
+  <ion-item>
+   <img src="assets/imgs/kvm_besch.png">
+  </ion-item>
+
+<!--   <ion-row>
+    <ion-col>
+      <button ion-button icon-start clear small>
+        <ion-icon name="thumbs-up"></ion-icon>
+        <div>12 Likes</div>
+      </button>
+    </ion-col> 
+    <ion-col>
+      <button ion-button icon-start clear small>
+        <ion-icon name="text"></ion-icon>
+        <div>4 Comments</div>
+      </button>
+    </ion-col>
+    <ion-col center text-center>
+      <ion-note>
+        11h ago
+      </ion-note>
+    </ion-col>
+  </ion-row>-->
+
+    <ion-list>
+      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        {{p.title}}
+      </button>
+    </ion-list>
+  </ion-content>
+
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

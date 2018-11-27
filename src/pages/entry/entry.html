@@ -1,0 +1,35 @@
+<ion-header>
+
+	<ion-navbar>
+		<ion-title>Eintrag</ion-title>
+	</ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<div *ngIf="item[13] == 'Unternehmen'">
+		<span style="color: rgb(0, 152, 137);">Unternehmen</span>
+	</div>
+	<div *ngIf="item[13] == 'Initiative'">
+		<span style="color: rgb(151,191,13);">Initiative</span>
+	</div>
+	<h2>{{item[4]}}</h2>
+	<p>{{item[5]}}</p>
+	<p (click)='openNav()' style="cursor:pointer; color:blue; text-decoration:underline;">
+	{{item[8]}}<br>
+	{{item[9]}} {{item[10]}}</p>
+	<a href="{{item[12]}}" target="_blank">{{item[12]}}</a>
+	<br><br>
+	<div *ngFor="let tag of tags" style="
+	font-size: 1em;
+	display: inline-block;
+	background: #eaeaea;
+	color: #333;
+	border-radius: 0.3em;
+	padding: 0.2em 0.4em;
+	margin-right: 0.4em;">
+		#{{tag}}
+	</div>
+
+</ion-content>

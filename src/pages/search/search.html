@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+  <ion-searchbar [(ngModel)]="searchTerm" (keyup.enter)="setFilteredItems($event)" [showCancelButton]="shouldShowCancel" placeholder="Suche in Einträgen" ></ion-searchbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-list>
+		<ion-item *ngFor="let item of filterdata" (click)='showitem(item)'>
+			<strong>{{item[4]}}</strong> <br/>
+			{{item[5]}}
+		</ion-item>
+	</ion-list>
+</ion-content>
+
+<ion-footer>
+	<ion-toolbar>
+		<ion-buttons end>
+			<button ion-button color="save" (click)='ShowCard()' *ngIf="show == true">
+				<span>Zur Karte <ion-icon name="ios-arrow-forward"></ion-icon></span>
+			</button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-footer>
+<!--<ion-content>
+  <div id="mapevent" style="width:100%; height:100%;"></div>
+</ion-content>-->
