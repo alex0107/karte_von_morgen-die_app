@@ -13,7 +13,6 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Network } from '@ionic-native/network';
 
-
 @Component({
 	selector: 'page-home',
 	templateUrl: 'home.html'
@@ -98,7 +97,6 @@ export class HomePage {
 	}
 
 	addmymarkers(data:any, pic:any) {
-		console.log('8218 AddMyMarkers Pic: ' + pic + 'data: ' + data );
 		var Icon: any;
 		if(pic === 1) {
 
@@ -149,7 +147,10 @@ export class HomePage {
 
 					}
 					console.log('8218 Leaflet Map SetView')
-					this.map = leaflet.map("map").setView([50.888, 10], 5.3); //fitWorld() 50.388,6.828&zoom=5.69;
+					this.map = leaflet.map("map", {zoomControl: false}).setView([50.888, 10], 5.3); //fitWorld() 50.388,6.828&zoom=5.69;
+					leaflet.control.zoom({
+						     position:'bottomright'
+					}).addTo(this.map);
 
 					var redIcon = new leaflet.Icon({
 						iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
@@ -159,10 +160,8 @@ export class HomePage {
 					});
 
 					console.log('8218 Loadmap');
-					leaflet.titleLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
+					leaflet.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
 						attributions: '<a class="osm attr" href=https://wikimediafoundation.org/wiki/Maps_Terms_of_Use> Wikimedia </a>',
-						//leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-						//	attributions: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 						maxZoom: 17
 					}).addTo(this.map);
 
@@ -198,15 +197,18 @@ export class HomePage {
 					var customControl =  leaflet.Control.extend({
 
 						options: {
-							position: 'topleft'
+							position: 'bottomright'
 						},
 
 						onAdd: function (map) {
-							var container = leaflet.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+							var container = leaflet.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom leaflet-control-locate');
 
 							container.style.backgroundColor = 'white';     
-							container.style.backgroundImage = "url(../../assets/imgs/gps.png)";
-							container.style.backgroundSize = "30px 30px";
+							container.style.backgroundImage = "url(../../assets/imgs/location.svg)";
+							container.style.backgroundRepeat = 'no-repeat';
+							container.style.backgroundPosition = 'center';
+							//container.style.backgroundSize = "25px 25px";
+							container.style.backgroundSize = '70% 70%';
 							container.style.width = '33px';
 							container.style.height = '33px';
 
@@ -219,7 +221,6 @@ export class HomePage {
 									maxZoom: 17
 								});
 							}
-
 							return container;
 						}
 					});
@@ -227,6 +228,10 @@ export class HomePage {
 
 				}
 			}).catch(e => console.error(e));
+	}
+
+	doonclick() {
+		console.log('8218 doonclick');
 	}
 
 	async downloadData() {

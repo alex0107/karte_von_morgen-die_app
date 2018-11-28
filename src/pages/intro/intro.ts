@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-import { CardPage } from '../card/card';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the IntroPage page.
@@ -23,7 +23,7 @@ export class IntroPage {
     console.log('8218 IntroPage');
   }
 	  goToHome(){
-		      this.navCtrl.setRoot(CardPage);
+		      this.navCtrl.setRoot(HomePage);
 		    }
 
 
