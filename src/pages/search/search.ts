@@ -21,14 +21,22 @@ export class SearchPage {
 	searchTerm:any;
 	show: number = 0;	
 	loaded: number = 0;
+	entfernung:any =[];
+	oldlat:any;
+	oldlong:any;
 
 	constructor(public navCtrl: NavController, private file: File, private platform: Platform, public storage: Storage, public loading: LoadingController)
 	{
 	}
 
+	async setoldloc() {
+		this.oldlat = await this.storage.get('lat');
+		this.oldlong = await this.storage.get('lng');
+	}
 
 	ionViewDidEnter() {
 		this.platform.ready().then(() => {
+			this.setoldloc();
 		});
 	}
 
@@ -47,7 +55,7 @@ export class SearchPage {
 					path = this.file.externalDataDirectory + 'data/';
 				}
 
-				this.file.readAsText(path, 'alldata.csv')
+				this.file.readAsText(path, 'data.csv') //29.11.18 Rücksprache Helmut lokale Einträge (50 Stück begrenzt / nur lokale)
 					.then(fileStr => {
 						console.log('8218 AllData Search Start Parsing...')
 						this.parsedData = papa.parse(fileStr).data;
@@ -64,17 +72,32 @@ export class SearchPage {
 							console.log('8218 SearchTerm: ' + this.searchTerm);
 						}
 
+
 						this.filterdata = this.parsedData.filter((item) => {
 							if(item[4] !== undefined){
 								if(tag === 1) {
 									return item[14].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
 								} else {
-									return item[4].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+									if(item[14].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) {
+										item[30] = this.distance(this.oldlat, this.oldlong, item[6], item[7], "K").toFixed(2);
+										return item[14].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+									} else if(item[4].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) {
+										item[30] = this.distance(this.oldlat, this.oldlong, item[6], item[7], "K").toFixed(2);
+										this.entfernung.push((this.distance(this.oldlat, this.oldlong, item[6], item[7], "K")).toFixed(2));
+										return item[4].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+									}
 								}
 							} else {
 								console.log('8218 UNDEFINED');
 							}
 						});
+
+						this.filterdata.sort((data1, data2) => {
+							if (data1[30] < data2[30]) return -1;
+							if (data1[30] > data2[30]) return 1;
+							return 0;
+						});
+						
 						if (tag === 1) {
 							this.searchTerm = '#' + this.searchTerm;
 						}
@@ -90,6 +113,28 @@ export class SearchPage {
 
 			this.loaded = 1;
 		});
+	}
+
+	distance(lat1:number, lon1:number, lat2:number, lon2:number, unit:any) {
+		if ((lat1 == lat2) && (lon1 == lon2)) {
+			return 0;
+		}
+		else {
+			var radlat1 = Math.PI * lat1/180;
+			var radlat2 = Math.PI * lat2/180;
+			var theta = lon1-lon2;
+			var radtheta = Math.PI * theta/180;
+			var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+			if (dist > 1) {
+				dist = 1;
+			}
+			dist = Math.acos(dist);
+			dist = dist * 180/Math.PI;
+			dist = dist * 60 * 1.1515;
+			if (unit=="K") { dist = dist * 1.609344 }
+			if (unit=="N") { dist = dist * 0.8684 }
+			return dist;
+		}
 	}
 
 	showitem(item: any) {

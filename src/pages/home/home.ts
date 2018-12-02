@@ -94,6 +94,9 @@ export class HomePage {
 			}).catch((err)=> {
 				console.log('8218 Addmarker Err: ' + err);
 			});
+		/*		this.map.on('popupclick',function(e){
+			alert('Popupopen! ' + e);
+		});*/
 	}
 
 	addmymarkers(data:any, pic:any) {
@@ -121,10 +124,10 @@ export class HomePage {
 		leaflet.marker([data[6], data[7]], {icon: Icon}).addTo(this.map).bindPopup("<b>" + data[4] +  "</b><br>" + data[5] + "<br><b>" + data[8] + "<br>" + data[9] + " "  + data[10] + "<br>");
 	}
 
-	gotoEntry() {
+	gotoEntry(event:any) {
 		//Popup Onclick coming soon
 		//TODO
-		console.log('8218 GotoEntry');
+		console.log('8218 GotoEntry Event: ' + event);
 	}
 
 	async loadmap() {
