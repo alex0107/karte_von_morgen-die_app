@@ -1,5 +1,5 @@
 import { Component,  ViewChild, ElementRef } from '@angular/core';
-import { NavController, Platform, LoadingController } from 'ionic-angular';
+import { NavController, Platform, LoadingController, NavParams } from 'ionic-angular';
 import leaflet from 'leaflet';
 import * as papa from 'papaparse';
 import { File } from '@ionic-native/file';
@@ -24,14 +24,27 @@ export class SearchPage {
 	entfernung:any =[];
 	oldlat:any;
 	oldlong:any;
+	oldsearchterm:any;
 
-	constructor(public navCtrl: NavController, private file: File, private platform: Platform, public storage: Storage, public loading: LoadingController)
+	constructor(public navCtrl: NavController, private file: File, private platform: Platform, public storage: Storage, public loading: LoadingController, public navParams: NavParams)
 	{
 	}
 
 	async setoldloc() {
 		this.oldlat = await this.storage.get('lat');
 		this.oldlong = await this.storage.get('lng');
+	}
+
+	async ionViewWillEnter() {
+		this.oldsearchterm = await this.storage.get('searchterm');
+		this.searchTerm = this.navParams.get('searchterm');
+		console.log('8218 Old: ' + this.oldsearchterm + ' New: ' + this.searchTerm);
+
+		if(this.searchTerm !== undefined) {
+			if(this.searchTerm !== this.oldsearchterm) {
+				this.setFilteredItems();
+			}
+		}
 	}
 
 	ionViewDidEnter() {
@@ -55,7 +68,7 @@ export class SearchPage {
 					path = this.file.externalDataDirectory + 'data/';
 				}
 
-				this.file.readAsText(path, 'data.csv') //29.11.18 Rücksprache Helmut lokale Einträge (50 Stück begrenzt / nur lokale)
+				this.file.readAsText(path, 'alldata.csv') //29.11.18 Rücksprache Helmut lokale Einträge (50 Stück begrenzt / nur lokale)
 					.then(fileStr => {
 						console.log('8218 AllData Search Start Parsing...')
 						this.parsedData = papa.parse(fileStr).data;
@@ -66,24 +79,31 @@ export class SearchPage {
 
 						let tag = 0;
 
+						this.storage.set('searchterm', this.searchTerm);
+
 						if(this.searchTerm.includes('#')){
 							this.searchTerm = this.searchTerm.replace('#', '');
 							tag = 1;
 							console.log('8218 SearchTerm: ' + this.searchTerm);
 						}
 
-
 						this.filterdata = this.parsedData.filter((item) => {
 							if(item[4] !== undefined){
 								if(tag === 1) {
-									return item[14].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
-								} else {
 									if(item[14].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) {
 										item[30] = this.distance(this.oldlat, this.oldlong, item[6], item[7], "K").toFixed(2);
 										return item[14].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+									}
+								} else {
+									if(item[10].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) {
+										item[30] = this.distance(this.oldlat, this.oldlong, item[6], item[7], "K").toFixed(2); //Ortschaft durchsuchen
+										return item[10].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+									} else if(item[14].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) {
+										item[30] = this.distance(this.oldlat, this.oldlong, item[6], item[7], "K").toFixed(2); //Tag durchsuchen
+										return item[14].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
 									} else if(item[4].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) {
 										item[30] = this.distance(this.oldlat, this.oldlong, item[6], item[7], "K").toFixed(2);
-										this.entfernung.push((this.distance(this.oldlat, this.oldlong, item[6], item[7], "K")).toFixed(2));
+										this.entfernung.push((this.distance(this.oldlat, this.oldlong, item[6], item[7], "K")).toFixed(2)); //Titel durchsuchen
 										return item[4].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
 									}
 								}
@@ -107,6 +127,7 @@ export class SearchPage {
 
 					}).catch((err)=> {
 						console.log('8218 Addmarker Err: ' + JSON.stringify(err));
+						this.loader.dismiss();
 					});
 
 			}
@@ -142,7 +163,7 @@ export class SearchPage {
 	}
 
 	ShowCard() {
-		console.log('8218 ShowCard: ' + this.filterdata);
+		console.log('8218 ShowCard');
 		this.navCtrl.push(EntrycardPage, {entries: this.filterdata});
 	}
 

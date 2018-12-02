@@ -2,12 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 
-/**
- * Generated class for the EntryPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {SearchPage} from '../search/search';
 
 @Component({
 	selector: 'page-entry',
@@ -30,5 +25,11 @@ export class EntryPage {
 	openNav() {
 		console.log('8218 OpenNav');
 		this.launchnavigator.navigate([this.item[6], this.item[7]]);//6 & 7
+	}
+
+	searchTag(event:any) {
+		console.log('8218 Event: ' + event);
+		this.navCtrl.getPrevious().data.searchterm = '#' + event;
+		this.navCtrl.pop();
 	}
 }

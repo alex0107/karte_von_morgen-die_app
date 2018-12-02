@@ -46,54 +46,22 @@ export class EntrycardPage {
 			});
 
 		}
-
-		//leaflet.circle([data[6], data[7]], {color: 'green', fillColor: '#2fff', fillOpacity: 0.1, radius: 150}).addTo(this.map).bindPopup("<b>" + data[4] +  "</b><br>" + data[5]);
 		leaflet.marker([data[6], data[7]], {icon: greenIcon}).addTo(this.map).bindPopup("<b>" + data[4] +  "</b><br>" + data[5] + "<br><b>" + data[8] + "<br>" + data[9] + " "  + data[10] + "<br></b>");
 	}
 
 	async loadmap() {
-		this.map = leaflet.map("mapentry").setView([50.888, 10], 5.3); //fitWorld() 50.388,6.828&zoom=5.69;
+		this.map = leaflet.map("mapentry", {zoomControl: false}).setView([50.888, 10], 5.3);
 		leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			attributions: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 			maxZoom: 16
 		}).addTo(this.map);
 
+		leaflet.control.zoom({
+			position:'bottomright'
+		}).addTo(this.map);
+
 		for(let it of this.item) {
 			this.addmymarkers(it);
 		}
-
-		/*		let markerGroup = leaflet.featureGroup();
-		let lat = await this.storage.get('lat');
-		let lng = await this.storage.get('lng');
-		let marker: any = leaflet.marker([await this.storage.get('lat'), await this.storage.get('lng')]);
-		marker.bindPopup('Dein Standort').openPopup();
-		markerGroup.addLayer(marker);
-		this.map.addLayer(markerGroup);
-		this.addmarker();
-		this.map.setView([await this.storage.get('lat'), await this.storage.get('lng')], 10);
-		var customControl =  leaflet.Control.extend({
-
-			options: {
-				position: 'topleft'
-			},
-
-			onAdd: function (map) {
-				var container = leaflet.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
-
-				container.style.backgroundColor = 'white';
-				container.style.backgroundImage = "url(../../assets/imgs/gps.png)";
-				container.style.backgroundSize = "30px 30px";
-				container.style.width = '33px';
-				container.style.height = '33px';
-
-				container.onclick = function(){
-					map.setView([lat, lng], 10);
-				}
-
-				return container;
-			}
-		});
-		this.map.addControl(new customControl());*/
 	}
-
 }

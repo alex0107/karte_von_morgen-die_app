@@ -2,6 +2,8 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
+import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
+import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder';
 
 import { EventPage } from '../pages/event/event';
 import { UnternehmenPage } from '../pages/unternehmen/unternehmen';
@@ -71,7 +73,9 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator';
     LocationAccuracy,
     Network,  
     LaunchNavigator,  
-    FileTransfer
+    BackgroundGeolocation,  
+    FileTransfer,
+    NativeGeocoder
   ]
 })
 export class AppModule {}
