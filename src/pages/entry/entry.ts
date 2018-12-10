@@ -10,10 +10,12 @@ import {SearchPage} from '../search/search';
 })
 export class EntryPage {
 	item:any;
+	page:any;
 	tags:any;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, public launchnavigator: LaunchNavigator) {
 		this.item = navParams.get('entry');
+		this.page = navParams.get('page');
 	}
 
 	ionViewDidLoad() {
@@ -29,7 +31,11 @@ export class EntryPage {
 
 	searchTag(event:any) {
 		console.log('8218 Event: ' + event);
+		if(this.page == "home") {
+			this.navCtrl.setRoot(SearchPage, {searchterm: '#' + event});
+		} else {
 		this.navCtrl.getPrevious().data.searchterm = '#' + event;
-		this.navCtrl.pop();
+			this.navCtrl.pop();
+		}
 	}
 }
