@@ -87,7 +87,7 @@ export class HomePage {
 	addmarker() {
 		let path = null;
 
-		console.log('8218 Addmarker')
+		console.log('8218 Addmarker') 
 
 		if (this.platform.is('ios')) {
 			path = this.file.dataDirectory + 'data/';
@@ -103,10 +103,10 @@ export class HomePage {
 				console.log('8218 Addmarker Parse');
 
 				for(let parst of parsedData) {
-					if (parst[13] == 'Initiative')
+					if (parst[13] == 'Initiative') 
 					{
 						this.addmymarkers(parst, 1);
-					}
+					} 
 					else if (parst[13] == 'Unternehmen')
 					{
 						this.addmymarkers(parst, 0);
@@ -115,7 +115,7 @@ export class HomePage {
 					{
 					}
 				}
-
+				
 				console.log('8218 Addmarker Ready');
 			}).catch((err)=> {
 				console.log('8218 Addmarker Err: ' + err);
@@ -195,16 +195,11 @@ export class HomePage {
 					});
 
 					console.log('8218 Loadmap');
-					var token = 'API-KEY from Mapbox';
+					var token = 'pk.eyJ1IjoiYWxleHJlaW5lciIsImEiOiJjanBpb202N2ExOW4xM3hydWZoazk1YnU0In0.feMUrVZ3gEsFsFz6OUZsVw';
 					leaflet.tileLayer('http://a.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=' + token, {
 						attributions: '<a class="osm attr" href=https://wikimediafoundation.org/wiki/Maps_Terms_of_Use> Wikimedia </a>',
 						maxZoom: 17
 					}).addTo(this.map);
-
-					/*					leaflet.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
-						attributions: '<a class="osm attr" href=https://wikimediafoundation.org/wiki/Maps_Terms_of_Use> Wikimedia </a>',
-						maxZoom: 17
-					}).addTo(this.map);*/
 
 					if(state === true) {
 						if(this.popup == 0) {
@@ -239,7 +234,7 @@ export class HomePage {
 									this.diagnostic.switchToSettings();
 								} else {
 									this.locationinput();
-								}
+								}	
 								console.log('8218 Loadmap locationError: ' + err.message);
 							});
 						} else {
@@ -306,7 +301,7 @@ export class HomePage {
 								this.marker.bindPopup('Eingegebener Standort').openPopup();
 								markerGroup.addLayer(this.marker);
 								this.map.addLayer(markerGroup);
-								this.map.setView([coordinates[0].latitude, coordinates[0].longitude], 14);
+								this.map.setView([coordinates[0].latitude, coordinates[0].longitude], 14); 
 								this.downloadData();
 								this.loader.dismiss();
 							}).catch((error: any) => {
@@ -328,7 +323,7 @@ export class HomePage {
 		} else if (this.platform.is('android')) {
 			path = this.file.externalDataDirectory;
 		}
-
+		
 
 		console.log('8218 Old: ' + this.oldlat + ' ' + this.oldlong);
 		console.log('8218 New: ' + this.statlat + ' ' + this.statlong);
@@ -388,7 +383,7 @@ export class HomePage {
 								this.downloadalldata();
 								this.addmarker();
 							}).catch((err) => {
-								console.log('8218 Error Checkdir: ' + JSON.stringify(err));
+								console.log('8218 Error Checkdir: ' + JSON.stringify(err));	
 							});
 
 						this.deleted = 0;
