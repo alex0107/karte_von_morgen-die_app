@@ -1,0 +1,75 @@
+{
+  "_from": "uk.co.workingedge.phonegap.plugin.launchnavigator@4.2.2",
+  "_id": "uk.co.workingedge.phonegap.plugin.launchnavigator@4.2.2",
+  "_inBundle": false,
+  "_integrity": "sha512-KpLGHrY3tX3Ysj39Q4whQawIleKomhsq48zBAqZXDxs/wxAnWcMvIxgix3AIB5CMdjetF6JNYZAGBOqsNkl+0g==",
+  "_location": "/uk.co.workingedge.phonegap.plugin.launchnavigator",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "uk.co.workingedge.phonegap.plugin.launchnavigator@4.2.2",
+    "name": "uk.co.workingedge.phonegap.plugin.launchnavigator",
+    "escapedName": "uk.co.workingedge.phonegap.plugin.launchnavigator",
+    "rawSpec": "4.2.2",
+    "saveSpec": null,
+    "fetchSpec": "4.2.2"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/uk.co.workingedge.phonegap.plugin.launchnavigator/-/uk.co.workingedge.phonegap.plugin.launchnavigator-4.2.2.tgz",
+  "_shasum": "9a9e3027fc71c2f043b89d7128b3c0fa45944261",
+  "_spec": "uk.co.workingedge.phonegap.plugin.launchnavigator@4.2.2",
+  "_where": "/Users/alex/Desktop/Apps/Fairtrade_Tabs",
+  "author": {
+    "name": "Dave Alden"
+  },
+  "bugs": {
+    "url": "https://github.com/dpa99c/phonegap-launch-navigator/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "uk.co.workingedge.phonegap.plugin.launchnavigator",
+    "platforms": [
+      "android",
+      "ios",
+      "wp8",
+      "windows"
+    ]
+  },
+  "cordova_name": "Launch Navigator",
+  "deprecated": false,
+  "description": "Cordova/Phonegap plugin to navigate to a destination using native navigation apps on Android, iOS, and Windows Phone",
+  "engines": {
+    "cordovaDependencies": {
+      "4.0.0": {
+        "cordova": ">=7.1.0",
+        "cordova-android": ">=6.3.0",
+        "cordova-ios": ">=4.3.0"
+      }
+    }
+  },
+  "homepage": "https://github.com/dpa99c/phonegap-launch-navigator#readme",
+  "issue": "https://github.com/dpa99c/phonegap-launch-navigator/issues",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova",
+    "phonegap",
+    "ios",
+    "android",
+    "windows",
+    "wp8",
+    "navigation",
+    "navigator"
+  ],
+  "license": "MIT",
+  "name": "uk.co.workingedge.phonegap.plugin.launchnavigator",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dpa99c/phonegap-launch-navigator.git"
+  },
+  "types": "./uk.co.workingedge.phonegap.plugin.launchnavigator.d.ts",
+  "version": "4.2.2"
+}

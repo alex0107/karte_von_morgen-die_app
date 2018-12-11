@@ -1,0 +1,79 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-ionic-keyboard": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-ionic-webview": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-mauron85-background-geolocation": {
+      "ALWAYS_USAGE_DESCRIPTION": "This app always requires location tracking",
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-request-location-accuracy": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-sqlite-storage": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova.plugins.diagnostic": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "uk.co.workingedge.phonegap.plugin.launchnavigator": {
+      "LOCATION_USAGE_DESCRIPTION": "This app requires access to your location for navigation purposes",
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-nativegeocoder": {
+      "LOCATION_WHEN_IN_USE_DESCRIPTION": "Use geocoder service",
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-actionsheet": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    }
+  }
+}

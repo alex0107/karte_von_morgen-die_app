@@ -1,0 +1,13 @@
+# prevent accidental commits by exclude everything
+/*
+
+# only include project files
+!/.npmignore
+!/*.md
+!/*.png
+!/plugin.xml
+!/package.json
+!/www
+!/android
+!/ios
+!/LICENSE

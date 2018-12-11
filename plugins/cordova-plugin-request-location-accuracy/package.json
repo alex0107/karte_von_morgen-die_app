@@ -1,0 +1,66 @@
+{
+  "_from": "cordova-plugin-request-location-accuracy",
+  "_id": "cordova-plugin-request-location-accuracy@2.2.3",
+  "_inBundle": false,
+  "_integrity": "sha512-cwcG+4sHIU/Vfe1mvEtXh5hfo4k8OEdHo1Rdc9GU0YU/5J/umsBQdHfuBJ7hez59N7lRoUKpKhLhcY8MPBz9Fg==",
+  "_location": "/cordova-plugin-request-location-accuracy",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-request-location-accuracy",
+    "name": "cordova-plugin-request-location-accuracy",
+    "escapedName": "cordova-plugin-request-location-accuracy",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-request-location-accuracy/-/cordova-plugin-request-location-accuracy-2.2.3.tgz",
+  "_shasum": "65c6f96029ea2805ec032c9a9561592402f2c7b5",
+  "_spec": "cordova-plugin-request-location-accuracy",
+  "_where": "/Users/alex/Desktop/Apps/Fairtrade_Tabs",
+  "author": {
+    "name": "Dave Alden"
+  },
+  "bugs": {
+    "url": "https://github.com/dpa99c/cordova-plugin-request-location-accuracy/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-request-location-accuracy",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "cordova_name": "Request Location Accuracy",
+  "deprecated": false,
+  "description": "Cordova/Phonegap plugin for Android to request Location Accuracy mode via Google Play Services.",
+  "homepage": "https://github.com/dpa99c/cordova-plugin-request-location-accuracy#readme",
+  "issue": "https://github.com/dpa99c/cordova-plugin-request-location-accuracy/issues",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova",
+    "cordova-android",
+    "cordova-ios",
+    "phonegap",
+    "diagnostic",
+    "location",
+    "accuracy",
+    "high accuracy",
+    "fine accuracy",
+    "gps",
+    "settings"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-request-location-accuracy",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dpa99c/cordova-plugin-request-location-accuracy.git"
+  },
+  "version": "2.2.3"
+}
