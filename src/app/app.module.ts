@@ -5,10 +5,7 @@ import { MyApp } from './app.component';
 import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
 import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder';
 
-import { EventPage } from '../pages/event/event';
-import { UnternehmenPage } from '../pages/unternehmen/unternehmen';
 import { HomePage } from '../pages/home/home';
-import { CardPage } from '../pages/card/card';
 import { AboutusPage } from '../pages/aboutus/aboutus';
 import { SearchPage } from '../pages/search/search';
 import { TermsPage } from '../pages/terms/terms';
@@ -33,10 +30,7 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator';
 @NgModule({
   declarations: [
     MyApp,
-    EventPage,
-    UnternehmenPage,
     HomePage,
-    CardPage,
     AboutusPage,
     SearchPage,
     TermsPage,
@@ -53,10 +47,7 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    EventPage,
-    UnternehmenPage,
     HomePage,
-    CardPage,
     AboutusPage,
     SearchPage,
     TermsPage,
