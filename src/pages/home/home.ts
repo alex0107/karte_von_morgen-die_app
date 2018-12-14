@@ -1,5 +1,5 @@
 import { Component,  ViewChild, ElementRef } from '@angular/core';
-import { NavController, Platform, App, LoadingController, AlertController } from 'ionic-angular';
+import { NavController, Platform, App, LoadingController, AlertController, MenuController } from 'ionic-angular';
 import leaflet from 'leaflet';
 import * as papa from 'papaparse';
 import * as $ from 'jquery';
@@ -37,8 +37,11 @@ export class HomePage {
 	locationmode: any;
 	loader: any;
 	popup: any = 0;
+	entry: any;
+	markers:any;
 
-	constructor(public app: App, public navCtrl: NavController, private file: File, private transfer: FileTransfer, private platform: Platform, public storage: Storage, public splashScreen: SplashScreen, public diagnostic: Diagnostic, public locationAccuracy: LocationAccuracy, public network: Network, public elementRef: ElementRef, public backgroundGeolocation: BackgroundGeolocation, public loading: LoadingController, public alertCtrl: AlertController, public nativeGeocoder: NativeGeocoder) { }
+	constructor(public app: App, public navCtrl: NavController, private file: File, private transfer: FileTransfer, private platform: Platform, public storage: Storage, public splashScreen: SplashScreen, public diagnostic: Diagnostic, public locationAccuracy: LocationAccuracy, public network: Network, public elementRef: ElementRef, public backgroundGeolocation: BackgroundGeolocation, public loading: LoadingController, public alertCtrl: AlertController, public nativeGeocoder: NativeGeocoder, public menuCtrl: MenuController) {
+	}
 
 	ionViewDidEnter() {
 		this.platform.ready().then(() => {
@@ -48,14 +51,15 @@ export class HomePage {
 				alert('Die App benötigt eine aktive Internetverbindung! Bitte mobile Daten oder WiFi aktivieren!');
 				this.ionViewDidEnter();
 			} else {
-
 				this.downloadalldata();
 				//*** Dummy-Funktion wegen Appstoreconnect AppStore (Backgroundmode und "Immer verwenden") ***//
 				const config: BackgroundGeolocationConfig = {
+					notificationTitle: "KVM", // Android
+  				        notificationText: "Karte von morgen benutzt deinen Standort!", // Android
 					desiredAccuracy: 10,
 					stationaryRadius: 20,
 					distanceFilter: 30,
-					stopOnTerminate: false,
+					stopOnTerminate: true,
 				};
 				this.backgroundGeolocation.configure(config)
 					.subscribe((location: BackgroundGeolocationResponse) => {
@@ -67,10 +71,25 @@ export class HomePage {
 					});
 				this.backgroundGeolocation.start();
 
+				setInterval(() => this.checkstorage(), 250);
+
 				console.log('8218 map: ' + this.map);
 				this.loadmap(10);
 			}
 		});
+	}
+
+	async checkstorage() {
+		this.entry = await this.storage.get('entrysidebar');
+		if (this.entry !== null) {
+			this.storage.set('entrysidebar', undefined);
+			this.setentrymarker();
+		}
+	}
+
+	setentrymarker() {
+		this.map.setView([parseFloat(this.entry[6]), parseFloat(this.entry[7])+0.0035], 15);
+		leaflet.popup().setLatLng([parseFloat(this.entry[6])+0.001, this.entry[7]]).setContent(this.entry[4]).openOn(this.map);
 	}
 
 	async setoldloc() {
@@ -87,13 +106,15 @@ export class HomePage {
 	addmarker() {
 		let path = null;
 
-		console.log('8218 Addmarker') 
+		console.log('8218 Addmarker')
 
 		if (this.platform.is('ios')) {
 			path = this.file.dataDirectory + 'data/';
 		} else if (this.platform.is('android')) {
 			path = this.file.externalDataDirectory + 'data/';
 		}
+
+		this.markers = leaflet.layerGroup().addTo(this.map);
 
 		console.log('8218 Addmarker Path: ' + path);
 		this.file.readAsText(path, 'data.csv')
@@ -103,10 +124,10 @@ export class HomePage {
 				console.log('8218 Addmarker Parse');
 
 				for(let parst of parsedData) {
-					if (parst[13] == 'Initiative') 
+					if (parst[13] == 'Initiative')
 					{
 						this.addmymarkers(parst, 1);
-					} 
+					}
 					else if (parst[13] == 'Unternehmen')
 					{
 						this.addmymarkers(parst, 0);
@@ -115,11 +136,12 @@ export class HomePage {
 					{
 					}
 				}
-				
+
 				console.log('8218 Addmarker Ready');
 			}).catch((err)=> {
 				console.log('8218 Addmarker Err: ' + err);
 			});
+
 
 	}
 
@@ -144,7 +166,15 @@ export class HomePage {
 
 			}
 
-			var marker = leaflet.marker([data[6], data[7]], {icon: Icon}).addTo(this.map);
+			var marker = leaflet.marker([data[6], data[7]], {icon: Icon}).addTo(this.markers);
+
+			marker.on("click", (event) => {
+				this.storage.set('entrysidebar', data);
+				this.storage.set('entryhome', data);
+				this.menuCtrl.open("left");
+			});
+
+
 			var div_popup = leaflet.DomUtil.create('div', 'abcpopup');
 
 			let self = this;
@@ -154,7 +184,7 @@ export class HomePage {
 				self.gotoEntry(data);
 			});
 
-			marker.bindPopup(div_popup);
+			//marker.bindPopup(div_popup);
 		}
 	}
 
@@ -171,6 +201,7 @@ export class HomePage {
 
 	async loadmap(zoommax:any) {
 
+
 		await this.diagnostic.isLocationEnabled()
 			.then((state) => {
 				if(this.popup == 0) {
@@ -181,6 +212,7 @@ export class HomePage {
 				}
 				this.loader.present().then(() => {
 					this.backgroundGeolocation.stop();
+					this.backgroundGeolocation.finish();
 					if(this.map === undefined) {
 						this.map = leaflet.map("map", {zoomControl: false}).setView([50.888, 10], 5.3); //fitWorld() 50.388,6.828&zoom=5.69;
 						leaflet.control.zoom({
@@ -195,7 +227,7 @@ export class HomePage {
 					});
 
 					console.log('8218 Loadmap');
-					var token = 'pk.eyJ1IjoiYWxleHJlaW5lciIsImEiOiJjanBpb202N2ExOW4xM3hydWZoazk1YnU0In0.feMUrVZ3gEsFsFz6OUZsVw';
+					var token = 'YOUR_API_KEY';
 					leaflet.tileLayer('http://a.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=' + token, {
 						attributions: '<a class="osm attr" href=https://wikimediafoundation.org/wiki/Maps_Terms_of_Use> Wikimedia </a>',
 						maxZoom: 17
@@ -234,7 +266,7 @@ export class HomePage {
 									this.diagnostic.switchToSettings();
 								} else {
 									this.locationinput();
-								}	
+								}
 								console.log('8218 Loadmap locationError: ' + err.message);
 							});
 						} else {
@@ -301,7 +333,7 @@ export class HomePage {
 								this.marker.bindPopup('Eingegebener Standort').openPopup();
 								markerGroup.addLayer(this.marker);
 								this.map.addLayer(markerGroup);
-								this.map.setView([coordinates[0].latitude, coordinates[0].longitude], 14); 
+								this.map.setView([coordinates[0].latitude, coordinates[0].longitude], 14);
 								this.downloadData();
 								this.loader.dismiss();
 							}).catch((error: any) => {
@@ -323,7 +355,7 @@ export class HomePage {
 		} else if (this.platform.is('android')) {
 			path = this.file.externalDataDirectory;
 		}
-		
+
 
 		console.log('8218 Old: ' + this.oldlat + ' ' + this.oldlong);
 		console.log('8218 New: ' + this.statlat + ' ' + this.statlong);
@@ -383,7 +415,7 @@ export class HomePage {
 								this.downloadalldata();
 								this.addmarker();
 							}).catch((err) => {
-								console.log('8218 Error Checkdir: ' + JSON.stringify(err));	
+								console.log('8218 Error Checkdir: ' + JSON.stringify(err));
 							});
 
 						this.deleted = 0;
