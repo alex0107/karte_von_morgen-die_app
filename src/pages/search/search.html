@@ -1,10 +1,12 @@
-<ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-  <ion-searchbar [(ngModel)]="searchTerm" (keyup.enter)="setFilteredItems($event)" [showCancelButton]="shouldShowCancel" placeholder="Suche in Einträgen" ></ion-searchbar>
-  </ion-navbar>
+<ion-header no-border>
+	<ion-navbar>
+		<ion-buttons left>
+			<button ion-button color="save" (click)="gotoCard()">
+				<ion-icon name="md-globe"></ion-icon>
+			</button>
+		</ion-buttons>
+			<ion-searchbar [(ngModel)]="searchTerm" (keyup.enter)="setFilteredItems($event)" [showCancelButton]="shouldShowCancel" placeholder="Suche Global" ></ion-searchbar>
+	</ion-navbar>
 </ion-header>
 
 <ion-content padding>

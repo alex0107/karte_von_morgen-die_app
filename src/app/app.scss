@@ -14,3 +14,23 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+ion-menu[side=right] .menu-inner {
+	    width: 45%;
+}
+
+ion-menu[side=left] .menu-inner {
+	    width: 50%;
+}
+
+
+.searchbar-search-icon { 
+	display:none; 
+	width:0; 
+	height:0;
+}
+
+.searchbar-input {
+	padding-left: 5px !important;
+	padding-right: 9px !important;
+}

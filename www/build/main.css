@@ -25674,6 +25674,25 @@ ion-navbar.toolbar {
   min-height: calc(46px + env(safe-area-inset-bottom));
 }
 
+ion-menu[side=right] .menu-inner {
+  width: 45%;
+}
+
+ion-menu[side=left] .menu-inner {
+  width: 50%;
+}
+
+.searchbar-search-icon {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.searchbar-input {
+  padding-left: 5px !important;
+  padding-right: 9px !important;
+}
+
 page-contact .data-scroll {
   position: absolute;
   top: 0;

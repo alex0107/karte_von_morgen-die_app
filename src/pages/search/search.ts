@@ -1,10 +1,11 @@
 import { Component,  ViewChild, ElementRef } from '@angular/core';
-import { NavController, Platform, LoadingController, NavParams } from 'ionic-angular';
+import { NavController, App, Platform, LoadingController, NavParams } from 'ionic-angular';
 import leaflet from 'leaflet';
 import * as papa from 'papaparse';
 import { File } from '@ionic-native/file';
 import { Storage } from '@ionic/storage';
 
+import { HomePage } from '../home/home';
 import { EntryPage } from '../entry/entry';
 import { EntrycardPage } from '../entrycard/entrycard';
 
@@ -26,7 +27,7 @@ export class SearchPage {
 	oldlong:any;
 	oldsearchterm:any;
 
-	constructor(public navCtrl: NavController, private file: File, private platform: Platform, public storage: Storage, public loading: LoadingController, public navParams: NavParams)
+	constructor(public navCtrl: NavController, private file: File, private platform: Platform, public storage: Storage, public loading: LoadingController, public navParams: NavParams, public app: App)
 	{
 	}
 
@@ -45,6 +46,11 @@ export class SearchPage {
 				this.setFilteredItems();
 			}
 		}
+	}
+
+	gotoCard() {
+		console.log('8218 OpenSearchPage');
+                this.app.getRootNav().setRoot(HomePage);
 	}
 
 	ionViewDidEnter() {
@@ -68,7 +74,7 @@ export class SearchPage {
 					path = this.file.externalDataDirectory + 'data/';
 				}
 
-				this.file.readAsText(path, 'alldata.csv') //29.11.18 Rücksprache Helmut lokale Einträge (50 Stück begrenzt / nur lokale)
+				this.file.readAsText(path, 'alldata.csv') 
 					.then(fileStr => {
 						console.log('8218 AllData Search Start Parsing...')
 						this.parsedData = papa.parse(fileStr).data;
