@@ -17,6 +17,7 @@ import { Network } from '@ionic-native/network';
 import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder';
 
 import { EntryPage } from '../entry/entry';
+import { HometabPage } from '../hometab/hometab';
 
 @Component({
 	selector: 'page-home',
@@ -37,63 +38,87 @@ export class HomePage {
 	locationmode: any;
 	loader: any;
 	popup: any = 0;
-	entry: any;
-	markers:any;
+	entry: any = null;
+	markers: any;
 
-	constructor(public app: App, public navCtrl: NavController, private file: File, private transfer: FileTransfer, private platform: Platform, public storage: Storage, public splashScreen: SplashScreen, public diagnostic: Diagnostic, public locationAccuracy: LocationAccuracy, public network: Network, public elementRef: ElementRef, public backgroundGeolocation: BackgroundGeolocation, public loading: LoadingController, public alertCtrl: AlertController, public nativeGeocoder: NativeGeocoder, public menuCtrl: MenuController) {
+	ready: number = 0;
+
+	constructor(public app: App, public navCtrl: NavController, private file: File, private transfer: FileTransfer, private platform: Platform, public storage: Storage, public splashScreen: SplashScreen, public diagnostic: Diagnostic, public locationAccuracy: LocationAccuracy, public network: Network, public elementRef: ElementRef, public backgroundGeolocation: BackgroundGeolocation, public loading: LoadingController, public alertCtrl: AlertController, public nativeGeocoder: NativeGeocoder, public menuCtrl: MenuController) 
+	{
 	}
 
 	ionViewDidEnter() {
 		this.platform.ready().then(() => {
 			console.log('8218 Home');
-			this.setoldloc();
-			if(this.network.type === 'none') {
-				alert('Die App benötigt eine aktive Internetverbindung! Bitte mobile Daten oder WiFi aktivieren!');
-				this.ionViewDidEnter();
-			} else {
-				this.downloadalldata();
-				//*** Dummy-Funktion wegen Appstoreconnect AppStore (Backgroundmode und "Immer verwenden") ***//
-				const config: BackgroundGeolocationConfig = {
-					notificationTitle: "KVM", // Android
-  				        notificationText: "Karte von morgen benutzt deinen Standort!", // Android
-					desiredAccuracy: 10,
-					stationaryRadius: 20,
-					distanceFilter: 30,
-					stopOnTerminate: true,
-				};
-				this.backgroundGeolocation.configure(config)
-					.subscribe((location: BackgroundGeolocationResponse) => {
+				this.setoldloc();
+				if(this.network.type === 'none') {
+					alert('Die App benötigt eine aktive Internetverbindung! Bitte mobile Daten oder WiFi aktivieren!');
+					this.ionViewDidEnter();
+				} else {
+					this.downloadalldata();
+					//*** Dummy-Funktion wegen Appstoreconnect AppStore (Backgroundmode und "Immer verwenden") ***//
+					const config: BackgroundGeolocationConfig = {
+						notificationTitle: "KVM", // Android
+						notificationText: "Karte von morgen benutzt deinen Standort!", // Android
+						desiredAccuracy: 10,
+						stationaryRadius: 20,
+						distanceFilter: 30,
+						stopOnTerminate: true,
+					};
+					this.backgroundGeolocation.configure(config)
+						.subscribe((location: BackgroundGeolocationResponse) => {
 
-						console.log(location);
+							console.log(location);
 
-						this.backgroundGeolocation.finish(); // FOR IOS ONLY
+							this.backgroundGeolocation.finish(); // FOR IOS ONLY
 
-					});
-				this.backgroundGeolocation.start();
+						});
+					this.backgroundGeolocation.start();
 
-				setInterval(() => this.checkstorage(), 250);
-
-				console.log('8218 map: ' + this.map);
-				this.loadmap(10);
-			}
+					console.log('8218 map: ' + this.map);
+					this.checkstorage();
+				}
 		});
 	}
 
+	zoomin() {
+		this.map.zoomIn();
+	}
+
+	zoomout() {
+		this.map.zoomOut();
+	}
+
 	async checkstorage() {
-		this.entry = await this.storage.get('entrysidebar');
+		console.log('8218 CheckStorage....Storage');
+		var storeentry = await this.storage.get('entryhome');
+		if (storeentry !== null) {
+			this.entry = storeentry;
+			this.storage.set('entryhome', undefined);
+		}
 		if (this.entry !== null) {
-			this.storage.set('entrysidebar', undefined);
-			this.setentrymarker();
+			this.popup = 1;
+			if (this.entry[13] == 'Initiative')
+			{
+				await this.addmymarkers(this.entry, 1, 0);
+			}
+			else if (this.entry[13] == 'Unternehmen')
+			{
+				await this.addmymarkers(this.entry, 0, 0);
+			}
+			else //Events?
+			{
+			}
+			this.map.setView([parseFloat(this.entry[6]), parseFloat(this.entry[7])], 15);
+			this.map.invalidateSize(true);
+			this.entry = null;
+		} else {
+			console.log('8218 CheckStorage....Loadmap');
+			this.loadmap(10);
 		}
 	}
 
-	setentrymarker() {
-		this.map.setView([parseFloat(this.entry[6]), parseFloat(this.entry[7])+0.0035], 15);
-		leaflet.popup().setLatLng([parseFloat(this.entry[6])+0.001, this.entry[7]]).setContent(this.entry[4]).openOn(this.map);
-	}
-
 	async setoldloc() {
-		this.firsttime = await this.storage.get('first');
 		this.oldlat = await this.storage.get('lat');
 		this.oldlong = await this.storage.get('lng');
 	}
@@ -106,7 +131,7 @@ export class HomePage {
 	addmarker() {
 		let path = null;
 
-		console.log('8218 Addmarker')
+		console.log('8218 Addmarker') 
 
 		if (this.platform.is('ios')) {
 			path = this.file.dataDirectory + 'data/';
@@ -122,15 +147,14 @@ export class HomePage {
 				let parsedData = papa.parse(fileStr).data;
 				parsedData.splice(0, 1);
 				console.log('8218 Addmarker Parse');
-
 				for(let parst of parsedData) {
-					if (parst[13] == 'Initiative')
+					if (parst[13] == 'Initiative') 
 					{
-						this.addmymarkers(parst, 1);
-					}
+						this.addmymarkers(parst, 1, 0);
+					} 
 					else if (parst[13] == 'Unternehmen')
 					{
-						this.addmymarkers(parst, 0);
+						this.addmymarkers(parst, 0, 0);
 					}
 					else //Events?
 					{
@@ -141,12 +165,12 @@ export class HomePage {
 			}).catch((err)=> {
 				console.log('8218 Addmarker Err: ' + err);
 			});
-
+		
 
 	}
 
-	addmymarkers(data:any, pic:any) {
-		if(data[16] >= 0) {
+	addmymarkers(data:any, pic:any, openpopup:any) {
+		if(data[16] >= 0 ) {
 			var Icon: any;
 			if(pic === 1) {
 
@@ -165,60 +189,67 @@ export class HomePage {
 				});
 
 			}
-
+			
 			var marker = leaflet.marker([data[6], data[7]], {icon: Icon}).addTo(this.markers);
-
-			marker.on("click", (event) => {
-				this.storage.set('entrysidebar', data);
-				this.storage.set('entryhome', data);
-				this.menuCtrl.open("left");
-			});
-
-
 			var div_popup = leaflet.DomUtil.create('div', 'abcpopup');
-
 			let self = this;
+			div_popup.innerHTML = "<b>" + data[4] +  '</b><button color="light" class="more" style="height: 36px; margin-right: 8px; margin-left: 8px; padding-top: 12px; padding-bottom: 12px; background-color: rgba(244,244,244,0.8);">mehr...</button>'; //<button style="height: 36px; width: 36px;  padding-bottom: 12px; padding-top: 12px; background-color: rgba(244,244,244,0.8);" class="close">X</button>';
 
-			div_popup.innerHTML = "<b>" + data[4] +  "</b><br>" + data[5] + "<br><b>" + data[8] + "<br>" + data[9] + " "  + data[10] + '<a class="more" style="position: absolute; right: 1em;">mehr...</a>';
-			$('a.more', div_popup).on('click', function() {
+			$('button.more', div_popup).on('click', function() {
 				self.gotoEntry(data);
 			});
-
-			//marker.bindPopup(div_popup);
+			/*
+			$('button.close', div_popup).on('click', function() {
+				self.map.closePopup();
+			});
+			 */
+			var popup = leaflet.popup({closeButton: false}).setContent(div_popup);
+			if (openpopup === 1) {
+				marker.bindPopup(popup).openPopup();
+			} else {
+				marker.bindPopup(popup);
+			}
 		}
 	}
 
 	gotoEntry(event) {
 		console.log('8218 GotoEntryPage');
 		this.popup = 1;
-		this.navCtrl.push(EntryPage, {entry: event, page: 'home'});
+		this.storage.set('entrytab', event);
+		this.navCtrl.parent.select(1);
 	}
 
 	locationbutton() {
 		console.log('8218 Locate-Button was pressed');
+		this.popup = 0;
 		this.loadmap(17);
 	}
 
 	async loadmap(zoommax:any) {
-
-
+		console.log('8218 Function Loadmap...');
 		await this.diagnostic.isLocationEnabled()
 			.then((state) => {
-				if(this.popup == 0) {
-					console.log('8218 Location: ' + state);
-					this.loader = this.loading.create({
-						content: 'Ermittle Standort...',
-					});
-				}
+				console.log('8218 Location: ' + state);
+				this.loader = this.loading.create({
+					content: 'Ermittle Standort...',
+				});
 				this.loader.present().then(() => {
+					if(this.popup == 1) {
+						this.loader.dismiss();
+					}
 					this.backgroundGeolocation.stop();
 					this.backgroundGeolocation.finish();
 					if(this.map === undefined) {
-						this.map = leaflet.map("map", {zoomControl: false}).setView([50.888, 10], 5.3); //fitWorld() 50.388,6.828&zoom=5.69;
-						leaflet.control.zoom({
-							position:'bottomright'
+						console.log('8218 Setting View');
+						this.map = leaflet.map("map", {zoomControl: false}).setView([50.888, 10], 5.3);
+						console.log('8218 Setting Card...');
+						var token = 'pk.eyJ1IjoiYWxleHJlaW5lciIsImEiOiJjanBpb202N2ExOW4xM3hydWZoazk1YnU0In0.feMUrVZ3gEsFsFz6OUZsVw';
+						leaflet.tileLayer('http://a.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=' + token, {
+							attributions: '<a class="osm attr" href=https://wikimediafoundation.org/wiki/Maps_Terms_of_Use> Wikimedia </a>',
+							maxZoom: 17
 						}).addTo(this.map);
 					}
+
 					var redIcon = new leaflet.Icon({
 						iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
 						iconSize: [25, 41],
@@ -227,11 +258,7 @@ export class HomePage {
 					});
 
 					console.log('8218 Loadmap');
-					var token = 'YOUR_API_KEY';
-					leaflet.tileLayer('http://a.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=' + token, {
-						attributions: '<a class="osm attr" href=https://wikimediafoundation.org/wiki/Maps_Terms_of_Use> Wikimedia </a>',
-						maxZoom: 17
-					}).addTo(this.map);
+					console.log('8218 Popup: ' + this.popup + ' Firsttime: ' + this.firsttime);
 
 					if(state === true) {
 						if(this.popup == 0) {
@@ -251,11 +278,13 @@ export class HomePage {
 								this.marker  = leaflet.marker([e.latitude, e.longitude], {icon: redIcon});
 								this.statlat = e.latitude;
 								this.statlong = e.longitude;
-								this.marker.bindPopup('Dein Standort').openPopup();
+								var popsta = leaflet.popup({closeButton: false}).setContent('Dein Standort');
+								this.marker.bindPopup(popsta);
 								markerGroup.addLayer(this.marker);
 								this.map.addLayer(markerGroup);
 								this.downloadData();
 								this.loader.dismiss();
+								this.ready = 1;
 							}).on('locationerror', (err) => {
 								this.loader.dismiss();
 								if(err.message.toString().includes('denied')) {
@@ -266,29 +295,42 @@ export class HomePage {
 									this.diagnostic.switchToSettings();
 								} else {
 									this.locationinput();
-								}
+								}	
 								console.log('8218 Loadmap locationError: ' + err.message);
 							});
+							
+							if(this.entry !== null) {
+								console.log('8218 Entry CheckStorage: ' + this.entry);
+								this.checkstorage();
+							}
 						} else {
-							this.popup = 0;
+							this.loader.dismiss();
+							console.log('8218 Entry: ' + this.entry);
+							if(this.entry !== null) {
+								console.log('8218 Entry CheckStorage: ' + this.entry);
+								this.checkstorage();
+							}
 						}
-
-
 					} else {
-						this.locationinput();
+						if(this.popup === 0) {
+							this.locationinput();
+						} else {
+							this.loader.dismiss();
+							if(this.entry !== null) {
+								console.log('8218 Entry CheckStorage: ' + this.entry);
+								this.checkstorage();
+							}
+						}
 					}
-
-
-
-
-
 
 				});
 			}).catch(e => console.error(e));
 	}
 
 	locationinput() {
-		this.loader.dismiss();
+		this.loader.present().then(() => {
+			this.loader.dismiss();
+		});
 		let options: NativeGeocoderOptions = {
 			useLocale: true,
 			maxResults: 5
@@ -333,9 +375,10 @@ export class HomePage {
 								this.marker.bindPopup('Eingegebener Standort').openPopup();
 								markerGroup.addLayer(this.marker);
 								this.map.addLayer(markerGroup);
-								this.map.setView([coordinates[0].latitude, coordinates[0].longitude], 14);
+								this.map.setView([coordinates[0].latitude, coordinates[0].longitude], 14); 
 								this.downloadData();
 								this.loader.dismiss();
+								this.loader = 1;
 							}).catch((error: any) => {
 								console.log(error);
 							});
@@ -355,11 +398,11 @@ export class HomePage {
 		} else if (this.platform.is('android')) {
 			path = this.file.externalDataDirectory;
 		}
-
+		
 
 		console.log('8218 Old: ' + this.oldlat + ' ' + this.oldlong);
 		console.log('8218 New: ' + this.statlat + ' ' + this.statlong);
-		if(((await this.storage.get('day') <= new Date().getDate() || await this.storage.get('month') !== new Date().getMonth()) && this.deleted === 0) || this.oldlat-0.2 >= this.statlat || this.oldlat+0.2 <= this.statlat || this.oldlong-0.2 >= this.statlong || this.oldlong+0.2 <= this.statlong)
+		if(((await this.storage.get('day') <= new Date().getDate() || await this.storage.get('month') !== new Date().getMonth()) && this.deleted === 0) || this.oldlat-0.1 >= this.statlat || this.oldlat+0.1 <= this.statlat || this.oldlong-0.1 >= this.statlong || this.oldlong+0.1 <= this.statlong)
 		{
 			console.log('8218 DeleteDir ' + path);
 			await this.file.removeRecursively(path, 'data').then(
@@ -403,10 +446,10 @@ export class HomePage {
 						this.storage.set('year', new Date().getFullYear());
 						this.storage.set('lat', this.statlat);
 						this.storage.set('lng', this.statlong);
-						let minlat:number = this.statlat - 0.6;
-						let minlng:number = this.statlong - 0.6;
-						let maxlat:number = parseFloat(this.statlat) + 0.6;
-						let maxlng:number = parseFloat(this.statlong) + 0.6;
+						let minlat:number = this.statlat - 0.2;
+						let minlng:number = this.statlong - 0.2;
+						let maxlat:number = parseFloat(this.statlat) + 0.2;
+						let maxlng:number = parseFloat(this.statlong) + 0.2;
 						let transurl = 'http://api.ofdb.io/v0/export/entries.csv?bbox=' + minlat + ',' + minlng  +',' + maxlat + ',' + maxlng;
 						transfer.download(transurl, path + 'data.csv')
 							.then(entry => {
@@ -415,7 +458,7 @@ export class HomePage {
 								this.downloadalldata();
 								this.addmarker();
 							}).catch((err) => {
-								console.log('8218 Error Checkdir: ' + JSON.stringify(err));
+								console.log('8218 Error Checkdir: ' + JSON.stringify(err));	
 							});
 
 						this.deleted = 0;

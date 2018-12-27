@@ -1,0 +1,5 @@
+<ion-tabs [selectedIndex]="tabindex">
+    <ion-tab [root]="sucheRoot" tabTitle="Suche" tabIcon="search"></ion-tab>
+    <ion-tab [root]="eintragRoot" tabTitle="Eintrag" [rootParams]="entryparam" tabIcon="md-archive"></ion-tab>
+    <ion-tab [root]="zurKarteRoot" tabTitle="Karte" [rootParams]="cardparam" tabIcon="ios-map-outline"></ion-tab>
+</ion-tabs>

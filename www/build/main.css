@@ -25682,6 +25682,18 @@ ion-menu[side=left] .menu-inner {
   width: 50%;
 }
 
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Rubik"), local("Rubik-Regular"), url(https://fonts.gstatic.com/s/rubik/v7/iJWKBXyIfDnIV7nBrXyw023e.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+* {
+  font-family: 'Rubik';
+}
+
 .searchbar-search-icon {
   display: none;
   width: 0;
@@ -25705,6 +25717,12 @@ page-contact .data-table {
   min-width: 800px;
 }
 
+page-home .leaflet-touch .leaflet-bar {
+  border: none;
+  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
 .ios page-intro ion-slide, .md page-intro ion-slide {
   background-color: #97bf0d;
 }
@@ -25712,4 +25730,8 @@ page-contact .data-table {
 .ios page-intro ion-slide img, .md page-intro ion-slide img {
   height: 70vh !important;
   width: auto !important;
+}
+
+.ios page-intro .swiper-pagination-bullet-active, .md page-intro .swiper-pagination-bullet-active {
+  background: #000000;
 }

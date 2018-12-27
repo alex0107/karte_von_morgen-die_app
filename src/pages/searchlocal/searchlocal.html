@@ -1,0 +1,20 @@
+<ion-header no-border>
+	<ion-navbar>
+		<ion-searchbar [(ngModel)]="searchTerm" (keyup.enter)="setFilteredItems($event)" [showCancelButton]="shouldShowCancel" placeholder="Suche lokal" ></ion-searchbar>
+		<ion-buttons end>
+			<button ion-button menuToggle>
+				<ion-icon name="menu"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-list>
+		<ion-item *ngFor="let item of filterdata;  let i = index" (click)='showitem(item)'>
+			<strong>{{item[4]}}</strong> <br/>
+			{{item[5]}}<br/>
+			<p align="right"><small>&asymp; {{item[30]}} km </small></p>
+		</ion-item>
+	</ion-list>
+</ion-content>

@@ -46,6 +46,9 @@
       "CONTENT_AUTHORITY": "$PACKAGE_NAME",
       "PACKAGE_NAME": "de.alexreiner.kvm"
     },
+    "cordova-plugin-nativegeocoder": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
     "cordova-plugin-network-information": {
       "PACKAGE_NAME": "de.alexreiner.kvm"
     },
@@ -70,13 +73,13 @@
     "uk.co.workingedge.phonegap.plugin.launchnavigator": {
       "OKHTTP_VERSION": "3.+",
       "PACKAGE_NAME": "de.alexreiner.kvm"
-    },
-    "cordova-plugin-nativegeocoder": {
-      "PACKAGE_NAME": "de.alexreiner.kvm"
     }
   },
   "dependent_plugins": {
     "cordova-plugin-actionsheet": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-add-swift-support": {
       "PACKAGE_NAME": "de.alexreiner.kvm"
     }
   }

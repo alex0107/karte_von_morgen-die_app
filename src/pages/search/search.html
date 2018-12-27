@@ -1,11 +1,11 @@
 <ion-header no-border>
 	<ion-navbar>
-		<ion-buttons left>
-			<button ion-button color="save" (click)="gotoCard()">
-				<ion-icon name="md-globe"></ion-icon>
+		<ion-searchbar [(ngModel)]="searchTerm" (keyup.enter)="setFilteredItems($event)" [showCancelButton]="shouldShowCancel" placeholder="Suche Global" ></ion-searchbar>
+		<ion-buttons end>
+			<button ion-button menuToggle>
+				<ion-icon name="menu"></ion-icon>
 			</button>
 		</ion-buttons>
-			<ion-searchbar [(ngModel)]="searchTerm" (keyup.enter)="setFilteredItems($event)" [showCancelButton]="shouldShowCancel" placeholder="Suche Global" ></ion-searchbar>
 	</ion-navbar>
 </ion-header>
 

@@ -1,27 +1,23 @@
 <ion-header>
 	<ion-navbar>
-		<button ion-button menuToggle="left">
-			<ion-icon name="menu"></ion-icon>
-		</button>
 		<ion-title>Karte</ion-title>
 		<ion-buttons end>
-			<button ion-button menuToggle="right">
+			<button ion-button menuToggle>
 				<ion-icon name="menu"></ion-icon>
 			</button>
-
-<!--			<button icon-only ion-button (click)="openSearchPage()">
-				<ion-icon name="ios-search"></ion-icon>
-</button>-->
 		</ion-buttons>
 	</ion-navbar>
 </ion-header>
 
 <ion-content>
-	<ion-buttons class="leaflet-bottom leaflet-right" style="margin-bottom: 130px; margin-right: 9px;">
-		<button (click)='locationinput()' ion-button icon-only style="width:33px; height=33px; border-color: rgba(0,0,0,0.2); border-width: 1.4px; border-style: solid;" color="light"><ion-icon name="ios-search"></ion-icon></button>
-	</ion-buttons>
-	<ion-buttons class="leaflet-bottom leaflet-right" style="margin-bottom: 90px; margin-right: 9px;">
-		<button (click)='locationbutton()' ion-button icon-only style="width:33px; height=33px; border-color: rgba(0,0,0,0.2); border-width: 1.4px; border-style: solid;" color="light"><img src="../../assets/imgs/location.svg" no-repeat width="15px"></button>
+	<ion-buttons class="leaflet-bottom leaflet-right" style="margin-bottom: 9px; margin-right: 9px;">
+		<p><button (click)='locationinput()' ion-button icon-only style="width: 32px; height: 32px; padding: 8px; box-shadow: 1px 1px 5px rgba(0,0,0,.5);" color="light"><ion-icon name="ios-search"></ion-icon></button><br>
+		<button (click)='locationbutton()' ion-button icon-only style="width: 32px; height: 32px; padding: 8px; box-shadow: 1px 1px 5px rgba(0,0,0,.5);" color="light"><img src="../../assets/imgs/location.svg" no-repeat></button><br>
+		<button (click)='zoomin()' ion-button icon-only style="width: 32px; height: 32px; box-shadow: 1px 1px 5px rgba(0,0,0,.5);" color="light"><ion-icon name="md-add"></ion-icon></button>
+		</p>
+		<p style="margin-top: -21px;">
+		<button (click)='zoomout()' ion-button icon-only style="width: 32px; height: 32px; box-shadow: 1px 1px 5px rgba(0,0,0,.5);" color="light"><ion-icon name="md-remove"></ion-icon></button>
+		</p>
 	</ion-buttons>
 	<div id="map" style="width:100%; height:100%;"></div>
 </ion-content>

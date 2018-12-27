@@ -38,6 +38,10 @@
       "ALWAYS_USAGE_DESCRIPTION": "This app always requires location tracking",
       "PACKAGE_NAME": "de.alexreiner.kvm"
     },
+    "cordova-plugin-nativegeocoder": {
+      "LOCATION_WHEN_IN_USE_DESCRIPTION": "Use geocoder service",
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
     "cordova-plugin-network-information": {
       "PACKAGE_NAME": "de.alexreiner.kvm"
     },
@@ -61,10 +65,6 @@
     },
     "uk.co.workingedge.phonegap.plugin.launchnavigator": {
       "LOCATION_USAGE_DESCRIPTION": "This app requires access to your location for navigation purposes",
-      "PACKAGE_NAME": "de.alexreiner.kvm"
-    },
-    "cordova-plugin-nativegeocoder": {
-      "LOCATION_WHEN_IN_USE_DESCRIPTION": "Use geocoder service",
       "PACKAGE_NAME": "de.alexreiner.kvm"
     }
   },

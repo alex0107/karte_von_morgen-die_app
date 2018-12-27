@@ -12,6 +12,9 @@ import { TermsPage } from '../pages/terms/terms';
 import { EntryPage } from '../pages/entry/entry';
 import { IntroPage } from '../pages/intro/intro';
 import { EntrycardPage } from '../pages/entrycard/entrycard';
+import { HometabPage } from '../pages/hometab/hometab';
+import { SearchlocalPage } from '../pages/searchlocal/searchlocal';
+import { EntrylocalPage } from '../pages/entrylocal/entrylocal';
 
 import { File } from '@ionic-native/file';
 import { FileTransfer } from '@ionic-native/file-transfer';
@@ -34,7 +37,10 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator';
     AboutusPage,
     SearchPage,
     TermsPage,
-    EntryPage,
+	  EntryPage,
+	  HometabPage,
+	  SearchlocalPage,
+	  EntrylocalPage,
     IntroPage,
     EntrycardPage
   ],
@@ -51,8 +57,11 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator';
     AboutusPage,
     SearchPage,
     TermsPage,
-    EntryPage,
-    IntroPage,
+	  EntryPage,
+	  HometabPage,
+	  SearchlocalPage,
+	  EntrylocalPage,
+	  IntroPage,
     EntrycardPage
   ],
   providers: [
