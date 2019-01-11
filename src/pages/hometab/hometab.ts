@@ -13,14 +13,13 @@ import { HomePage } from '../home/home';
 export class HometabPage {
 
 	sucheRoot = SearchlocalPage;
-	eintragRoot = EntrylocalPage;
 	zurKarteRoot = HomePage;
 
 	tabindex: number = 2;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams) 
 	{
-		this.tabindex = navParams.data.tabIndex || 2;
+		this.tabindex = navParams.data.tabIndex || 1;
 	}
 
 }

@@ -9,14 +9,10 @@
 	</ion-navbar>
 </ion-header>
 <!--
-<ion-content>
-</ion-content>
+	<ion-content>
+	</ion-content>
 -->
 <ion-content padding>
-	<div style="text-align: center;" *ngIf="item == undefined">
-		<h1>Bitte einen Eintrag auswählen!</h1>
-	</div>
-	<div *ngIf="item != undefined">
 		<div *ngIf="item[13] == 'Unternehmen'">
 			<span style="color: rgb(0, 152, 137);">Unternehmen</span>
 		</div>
@@ -47,5 +43,4 @@
 		margin-right: 0.4em;" (click)='searchTag(tag)'>
 			#{{tag}}
 		</div>
-	</div>
 </ion-content>

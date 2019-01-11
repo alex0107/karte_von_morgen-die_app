@@ -16,7 +16,7 @@ import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocati
 import { Network } from '@ionic-native/network';
 import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder';
 
-import { EntryPage } from '../entry/entry';
+import { EntrylocalPage } from '../entrylocal/entrylocal';
 import { HometabPage } from '../hometab/hometab';
 
 @Component({
@@ -31,7 +31,8 @@ export class HomePage {
 	deleted: any = 0;
 	oldlat: any;
 	oldlong: any;
-	firsttime: any;
+	oldloclat: any;
+	oldloclong: any;
 	location: any = false;
 	internet: any = false;
 	marker: any;
@@ -40,8 +41,9 @@ export class HomePage {
 	popup: any = 0;
 	entry: any = null;
 	markers: any;
-
+	searchloc: any = 0;
 	ready: number = 0;
+	entryopen: any = 0;
 
 	constructor(public app: App, public navCtrl: NavController, private file: File, private transfer: FileTransfer, private platform: Platform, public storage: Storage, public splashScreen: SplashScreen, public diagnostic: Diagnostic, public locationAccuracy: LocationAccuracy, public network: Network, public elementRef: ElementRef, public backgroundGeolocation: BackgroundGeolocation, public loading: LoadingController, public alertCtrl: AlertController, public nativeGeocoder: NativeGeocoder, public menuCtrl: MenuController) 
 	{
@@ -49,13 +51,13 @@ export class HomePage {
 
 	ionViewDidEnter() {
 		this.platform.ready().then(() => {
-			console.log('8218 Home');
+			if (this.entryopen === 1) {
+				this.entryopen = 0;
+			} else {
+				console.log('8218 Home');
 				this.setoldloc();
-				if(this.network.type === 'none') {
-					alert('Die App benötigt eine aktive Internetverbindung! Bitte mobile Daten oder WiFi aktivieren!');
-					this.ionViewDidEnter();
-				} else {
-					this.downloadalldata();
+				this.downloadalldata();
+				if (this.platform.is('ios')) {
 					//*** Dummy-Funktion wegen Appstoreconnect AppStore (Backgroundmode und "Immer verwenden") ***//
 					const config: BackgroundGeolocationConfig = {
 						notificationTitle: "KVM", // Android
@@ -65,6 +67,7 @@ export class HomePage {
 						distanceFilter: 30,
 						stopOnTerminate: true,
 					};
+
 					this.backgroundGeolocation.configure(config)
 						.subscribe((location: BackgroundGeolocationResponse) => {
 
@@ -74,10 +77,22 @@ export class HomePage {
 
 						});
 					this.backgroundGeolocation.start();
-
-					console.log('8218 map: ' + this.map);
-					this.checkstorage();
 				}
+				console.log('8218 map: ' + this.map);
+				if(this.map === undefined) {
+					console.log('8218 Setting View');
+					this.map = leaflet.map("map", {zoomControl: false}).setView([50.888, 10], 5.3);
+					console.log('8218 Setting Card...');
+					var token = 'YOUR_API_TOKEN';
+					leaflet.tileLayer('http://a.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=' + token, {
+						attributions: '<a class="osm attr" href=https://wikimediafoundation.org/wiki/Maps_Terms_of_Use> Wikimedia </a>',
+						maxZoom: 17
+					}).addTo(this.map);
+					this.markers = leaflet.layerGroup().addTo(this.map);
+				}
+
+				this.checkstorage();
+			}
 		});
 	}
 
@@ -100,11 +115,11 @@ export class HomePage {
 			this.popup = 1;
 			if (this.entry[13] == 'Initiative')
 			{
-				await this.addmymarkers(this.entry, 1, 0);
+				await this.addmymarkers(this.entry, 1, 1);
 			}
 			else if (this.entry[13] == 'Unternehmen')
 			{
-				await this.addmymarkers(this.entry, 0, 0);
+				await this.addmymarkers(this.entry, 0, 1);
 			}
 			else //Events?
 			{
@@ -121,6 +136,7 @@ export class HomePage {
 	async setoldloc() {
 		this.oldlat = await this.storage.get('lat');
 		this.oldlong = await this.storage.get('lng');
+		console.log('8218 ' + this.oldloclong + " " + this.oldloclat);
 	}
 
 	openSearchPage() {
@@ -139,7 +155,6 @@ export class HomePage {
 			path = this.file.externalDataDirectory + 'data/';
 		}
 
-		this.markers = leaflet.layerGroup().addTo(this.map);
 
 		console.log('8218 Addmarker Path: ' + path);
 		this.file.readAsText(path, 'data.csv')
@@ -193,16 +208,11 @@ export class HomePage {
 			var marker = leaflet.marker([data[6], data[7]], {icon: Icon}).addTo(this.markers);
 			var div_popup = leaflet.DomUtil.create('div', 'abcpopup');
 			let self = this;
-			div_popup.innerHTML = "<b>" + data[4] +  '</b><button color="light" class="more" style="height: 36px; margin-right: 8px; margin-left: 8px; padding-top: 12px; padding-bottom: 12px; background-color: rgba(244,244,244,0.8);">mehr...</button>'; //<button style="height: 36px; width: 36px;  padding-bottom: 12px; padding-top: 12px; background-color: rgba(244,244,244,0.8);" class="close">X</button>';
+			div_popup.innerHTML = '<b class="title" style="padding: 12px;">' + data[4] +  '</b>';
 
-			$('button.more', div_popup).on('click', function() {
+			$('b.title', div_popup).on('click', function() {
 				self.gotoEntry(data);
 			});
-			/*
-			$('button.close', div_popup).on('click', function() {
-				self.map.closePopup();
-			});
-			 */
 			var popup = leaflet.popup({closeButton: false}).setContent(div_popup);
 			if (openpopup === 1) {
 				marker.bindPopup(popup).openPopup();
@@ -214,180 +224,219 @@ export class HomePage {
 
 	gotoEntry(event) {
 		console.log('8218 GotoEntryPage');
+		this.navCtrl.push(EntrylocalPage, {entry: event, page: 'home'});
 		this.popup = 1;
-		this.storage.set('entrytab', event);
-		this.navCtrl.parent.select(1);
+		this.entryopen = 1;
 	}
 
 	locationbutton() {
 		console.log('8218 Locate-Button was pressed');
+		this.storage.set('entryhome', undefined);
 		this.popup = 0;
+		this.searchloc = 1;
 		this.loadmap(17);
 	}
 
 	async loadmap(zoommax:any) {
-		console.log('8218 Function Loadmap...');
-		await this.diagnostic.isLocationEnabled()
-			.then((state) => {
-				console.log('8218 Location: ' + state);
-				this.loader = this.loading.create({
-					content: 'Ermittle Standort...',
-				});
-				this.loader.present().then(() => {
-					if(this.popup == 1) {
-						this.loader.dismiss();
+		this.oldloclat = await this.storage.get('oldlat');
+                this.oldloclong = await this.storage.get('oldlong');
+
+		console.log('8218 Function Loadmap...' + this.oldloclat + ' ' + this.oldloclong  + ' '  + this.searchloc);
+		if(this.oldloclat !== null && this.oldloclong !== null && this.searchloc === 0) {
+			if (this.platform.is('ios')) {
+				this.backgroundGeolocation.stop();
+				this.backgroundGeolocation.finish();
+			}
+			var redIcon = new leaflet.Icon({
+				iconUrl: '../../assets/imgs/marker_location.png',
+				iconSize: [25, 41],
+				iconAnchor: [12, 41],
+				popupAnchor: [1, -34],
+			});
+			let markerGroup = leaflet.featureGroup();
+			this.statlat = this.oldloclat;
+			this.statlong = this.oldloclong;
+			console.log('8218 OldLoc: ' + this.oldlat + ' ' + this.oldlong);
+			this.marker  = leaflet.marker([this.statlat, this.statlong], {icon: redIcon});
+			var popsta = leaflet.popup({closeButton: false}).setContent('Dein letzter Standort');
+			this.marker.bindPopup(popsta);
+			markerGroup.addLayer(this.marker);
+			this.map.addLayer(markerGroup);
+			console.log('8218 Added last Position');
+			this.map.setView([this.statlat, this.statlong], 10);
+			this.downloadData();
+		} else {
+			console.log('8218 Go on!');
+			await this.diagnostic.isLocationEnabled()
+				.then((state) => {
+					console.log('8218 Location: ' + state);
+					if(this.popup === 0) {
+						this.loader = this.loading.create({
+							content: 'Ermittle Standort...',
+						});
 					}
-					this.backgroundGeolocation.stop();
-					this.backgroundGeolocation.finish();
-					if(this.map === undefined) {
-						console.log('8218 Setting View');
-						this.map = leaflet.map("map", {zoomControl: false}).setView([50.888, 10], 5.3);
-						console.log('8218 Setting Card...');
-						var token = 'pk.eyJ1IjoiYWxleHJlaW5lciIsImEiOiJjanBpb202N2ExOW4xM3hydWZoazk1YnU0In0.feMUrVZ3gEsFsFz6OUZsVw';
-						leaflet.tileLayer('http://a.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=' + token, {
-							attributions: '<a class="osm attr" href=https://wikimediafoundation.org/wiki/Maps_Terms_of_Use> Wikimedia </a>',
-							maxZoom: 17
-						}).addTo(this.map);
-					}
+					this.loader.present().then(() => {
+						if(this.popup === 1) {
+							this.loader.dismiss();
+						}
+						if (this.platform.is('ios')) {
+							this.backgroundGeolocation.stop();
+							this.backgroundGeolocation.finish();
+						}
 
-					var redIcon = new leaflet.Icon({
-						iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-						iconSize: [25, 41],
-						iconAnchor: [12, 41],
-						popupAnchor: [1, -34],
-					});
+						var redIcon = new leaflet.Icon({
+							iconUrl: '../../assets/imgs/marker_location.png',
+							iconSize: [25, 41],
+							iconAnchor: [12, 41],
+							popupAnchor: [1, -34],
+						});
 
-					console.log('8218 Loadmap');
-					console.log('8218 Popup: ' + this.popup + ' Firsttime: ' + this.firsttime);
+						console.log('8218 Loadmap');
+						console.log('8218 Popup: ' + this.popup);
 
-					if(state === true) {
-						if(this.popup == 0) {
-							console.log('8218 Popup 0');
-							this.map.locate({
-								setView: true,
-								enableHighAccuracy: true,
-								timeout: 99999, //Auch für GPS-Only
-								maximumAge: 20,
-								maxZoom: zoommax
-							}).on('locationfound', (e) => {
-								console.log('8218 Marker: ' + this.marker);
-								if(this.marker !== undefined) {
-									this.map.removeLayer(this.marker);
-								}
-								let markerGroup = leaflet.featureGroup();
-								this.marker  = leaflet.marker([e.latitude, e.longitude], {icon: redIcon});
-								this.statlat = e.latitude;
-								this.statlong = e.longitude;
-								var popsta = leaflet.popup({closeButton: false}).setContent('Dein Standort');
-								this.marker.bindPopup(popsta);
-								markerGroup.addLayer(this.marker);
-								this.map.addLayer(markerGroup);
-								this.downloadData();
-								this.loader.dismiss();
-								this.ready = 1;
-							}).on('locationerror', (err) => {
-								this.loader.dismiss();
-								if(err.message.toString().includes('denied')) {
-									alert('Die App benötigt Zugriff auf deinen Standort!!');
-									this.diagnostic.switchToSettings();
-								} else if(err.message.toString().includes('Illegal')) {
-									alert('Die App benötigt Zugriff auf deinen Standort!!');
-									this.diagnostic.switchToSettings();
-								} else {
-									this.locationinput();
+
+						if(state === true) {
+							if(this.popup == 0) {
+								console.log('8218 Popup 0');
+
+								this.map.locate({
+									setView: true,
+									enableHighAccuracy: true,
+									timeout: 99999, //Auch für GPS-Only
+									maximumAge: 20,
+									maxZoom: zoommax
+								}).on('locationfound', (e) => {
+									console.log('8218 Marker: ' + this.marker);
+									if(this.marker !== undefined) {
+										this.map.removeLayer(this.marker);
+									}
+									let markerGroup = leaflet.featureGroup();
+									this.marker  = leaflet.marker([e.latitude, e.longitude], {icon: redIcon});
+									this.storage.set('oldlat', e.latitude);
+									this.storage.set('oldlong', e.longitude);
+									this.oldloclat = e.latitude;
+									this.oldloclong = e.longitude;
+									this.statlong = e.longitude;
+									var popsta = leaflet.popup({closeButton: false}).setContent('Dein Standort');
+									this.marker.bindPopup(popsta);
+									markerGroup.addLayer(this.marker);
+									this.map.addLayer(markerGroup);
+									this.downloadData();
+									this.loader.dismiss();
+									this.ready = 1;
+								}).on('locationerror', (err) => {
+									this.loader.dismiss();
+									if(err.message.toString().includes('denied')) {
+										alert('Die App benötigt Zugriff auf deinen Standort!!');
+										this.diagnostic.switchToSettings();
+									} else if(err.message.toString().includes('Illegal')) {
+										alert('Die App benötigt Zugriff auf deinen Standort!!');
+										this.diagnostic.switchToSettings();
+									} else {
+										this.locationinput();
+									}	
+									console.log('8218 Loadmap locationError: ' + err.message);
+								});
+
+								if(this.entry !== null) {
+									console.log('8218 Entry CheckStorage: ' + this.entry);
+									this.checkstorage();
 								}	
-								console.log('8218 Loadmap locationError: ' + err.message);
-							});
-							
-							if(this.entry !== null) {
-								console.log('8218 Entry CheckStorage: ' + this.entry);
-								this.checkstorage();
+							} else {
+								this.loader.dismiss();
+								console.log('8218 Entry: ' + this.entry);
+								if(this.entry !== null) {
+									console.log('8218 Entry CheckStorage: ' + this.entry);
+									this.checkstorage();
+								}
 							}
 						} else {
-							this.loader.dismiss();
-							console.log('8218 Entry: ' + this.entry);
-							if(this.entry !== null) {
-								console.log('8218 Entry CheckStorage: ' + this.entry);
-								this.checkstorage();
+							if(this.popup === 0) {
+								this.locationinput();
+							} else {
+								this.loader.dismiss();
+								if(this.entry !== null) {
+									console.log('8218 Entry CheckStorage: ' + this.entry);
+									this.checkstorage();
+								}
 							}
 						}
-					} else {
-						if(this.popup === 0) {
-							this.locationinput();
-						} else {
-							this.loader.dismiss();
-							if(this.entry !== null) {
-								console.log('8218 Entry CheckStorage: ' + this.entry);
-								this.checkstorage();
-							}
-						}
-					}
-
-				});
-			}).catch(e => console.error(e));
+					});
+				}).catch(e => console.error(e));
+		}
 	}
 
 	locationinput() {
-		this.loader.present().then(() => {
-			this.loader.dismiss();
-		});
+		console.log('8218 Locationinput... ' + this.loader);
+		if (this.loader !== undefined) {
+			this.loader.present().then(() => {
+				this.loader.dismiss();
+			});
+		}
+
 		let options: NativeGeocoderOptions = {
 			useLocale: true,
 			maxResults: 5
 		};
-		let alert = this.alertCtrl.create({
-			title: 'Standort eingeben',
-			message: 'Bitte einen Ort eingeben.',
-			inputs: [
-				{
-					name: 'location',
-					placeholder: 'Ort'
-				}
-			],
-			buttons: [
-				{
-					text: 'Abbrechen',
-					role: 'cancel',
-					handler: data => {
-						//Nothing to do
-					}
-				},
-				{
-					text: 'Suchen!',
-					handler: data => {
-						console.log('8218 Data: ' + data.location);
-						this.nativeGeocoder.forwardGeocode(data.location, options)
-							.then((coordinates: NativeGeocoderForwardResult[]) => {
-								console.log('8218 The coordinates are latitude=' + coordinates[0].latitude + ' and longitude=' + coordinates[0].longitude);
-								var redIcon = new leaflet.Icon({
-									iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-									iconSize: [25, 41],
-									iconAnchor: [12, 41],
-									popupAnchor: [1, -34],
-								});
-								if(this.marker !== undefined) {
-	                                                                this.map.removeLayer(this.marker);
-	                                                        }
-								let markerGroup = leaflet.featureGroup();
-								this.marker  = leaflet.marker( [coordinates[0].latitude, coordinates[0].longitude] , {icon: redIcon});
-								this.statlat = parseFloat(coordinates[0].latitude).toFixed(6);
-								this.statlong = parseFloat(coordinates[0].longitude).toFixed(6);
-								this.marker.bindPopup('Eingegebener Standort').openPopup();
-								markerGroup.addLayer(this.marker);
-								this.map.addLayer(markerGroup);
-								this.map.setView([coordinates[0].latitude, coordinates[0].longitude], 14); 
-								this.downloadData();
-								this.loader.dismiss();
-								this.loader = 1;
-							}).catch((error: any) => {
-								console.log(error);
-							});
-					}
-				}
-			]
-		});
-		alert.present();
+		if(this.network.type === 'none') {
+			alert('Diese Funktion ist nur mit einer aktiven Internetverbindung verfügbar! Bitte Wlan oder mobile Daten aktivieren!');
+		} else {
 
+			let alert = this.alertCtrl.create({
+				title: 'Standort eingeben',
+				message: 'Bitte einen Ort eingeben.',
+				inputs: [
+					{
+						name: 'location',
+						placeholder: 'Ort'
+					}
+				],
+				buttons: [
+					{
+						text: 'Abbrechen',
+						role: 'cancel',
+						handler: data => {
+							//Nothing to do
+						}
+					},
+					{
+						text: 'Suchen!',
+						handler: data => {
+							console.log('8218 Data: ' + data.location);
+							this.nativeGeocoder.forwardGeocode(data.location, options)
+								.then((coordinates: NativeGeocoderForwardResult[]) => {
+									console.log('8218 The coordinates are latitude=' + coordinates[0].latitude + ' and longitude=' + coordinates[0].longitude);
+									var redIcon = new leaflet.Icon({
+										iconUrl: '../../assets/imgs/marker_location.png',
+										iconSize: [25, 41],
+										iconAnchor: [12, 41],
+										popupAnchor: [1, -34],
+									});
+									if(this.marker !== undefined) {
+										this.map.removeLayer(this.marker);
+									}
+									let markerGroup = leaflet.featureGroup();
+									this.marker  = leaflet.marker( [coordinates[0].latitude, coordinates[0].longitude] , {icon: redIcon});
+									this.statlat = parseFloat(coordinates[0].latitude).toFixed(6);
+									this.statlong = parseFloat(coordinates[0].longitude).toFixed(6);
+									this.storage.set('oldlat', coordinates[0].latitude);
+                                                                        this.storage.set('oldlong', coordinates[0].longitude);
+									this.marker.bindPopup('Eingegebener Standort').openPopup();
+									markerGroup.addLayer(this.marker);
+									this.map.addLayer(markerGroup);
+									this.map.setView([coordinates[0].latitude, coordinates[0].longitude], 14); 
+									this.downloadData();
+									this.loader.dismiss();
+									this.loader = 1;
+								}).catch((error: any) => {
+									console.log(error);
+								});
+						}
+					}
+				]
+			});
+			alert.present();
+		}
 	}
 
 	async downloadData() {
@@ -404,6 +453,11 @@ export class HomePage {
 		console.log('8218 New: ' + this.statlat + ' ' + this.statlong);
 		if(((await this.storage.get('day') <= new Date().getDate() || await this.storage.get('month') !== new Date().getMonth()) && this.deleted === 0) || this.oldlat-0.1 >= this.statlat || this.oldlat+0.1 <= this.statlat || this.oldlong-0.1 >= this.statlong || this.oldlong+0.1 <= this.statlong)
 		{
+			if(this.network.type === 'none') {
+				alert('Die App muss neue Einträge herunterladen, bitte Wlan oder mobile Daten aktivieren!');
+				this.downloadData();
+			}
+
 			console.log('8218 DeleteDir ' + path);
 			await this.file.removeRecursively(path, 'data').then(
 				(files) => {
@@ -437,8 +491,9 @@ export class HomePage {
 				(err) => {
 					console.log("8218 CheckDir: data.csv not found ");
 					if(this.network.type === 'none') {
-						alert('Die App benötigt eine aktive Internetverbindung! Bitte mobile Daten oder WiFi aktivieren!');
-						this.downloadData();
+						alert('Die App benötigt eine aktive Internetverbindung zum Download der Einträge! Bitte mobile Daten oder WiFi aktivieren!');
+						this.map.remove();
+						this.ionViewDidEnter();
 					} else {
 						const transfer = this.transfer.create();
 						this.storage.set('day', new Date().getDate() + 3);
@@ -504,8 +559,8 @@ export class HomePage {
 				(err) => {
 					console.log("8218 CheckDir: alldata.csv not found ");
 					if(this.network.type === 'none') {
-						alert('Die App benötigt eine aktive Internetverbindung! Bitte mobile Daten oder WiFi aktivieren!');
-						this.downloadalldata();
+						alert('Die App benötigt eine aktive Internetverbindung zum Download der Einträge! Bitte mobile Daten oder WiFi aktivieren!');
+                                		this.downloadalldata();
 					} else {
 						const transfer = this.transfer.create();
 						this.storage.set('day', new Date().getDate() + 3);

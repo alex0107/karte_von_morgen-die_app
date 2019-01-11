@@ -7,7 +7,7 @@ import { NavController, Platform } from 'ionic-angular';
 })
 export class TermsPage {
 
-  public version: string = '1.1.1';
+  public version: string = '1.2';
 
   constructor(public navCtrl: NavController, private platform: Platform) { }
 

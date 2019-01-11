@@ -171,8 +171,7 @@ export class SearchlocalPage {
 	showitem(item: any) {
 		console.log('8218 Open Entry-Page');
 		this.storage.set('entryhome', item);
-		this.storage.set('entrytab', item);
-		this.navCtrl.parent.select(1);
+		this.navCtrl.push(EntrylocalPage, {entry: item});
 	}
 
 	parsedata() {

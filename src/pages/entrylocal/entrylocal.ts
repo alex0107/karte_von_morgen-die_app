@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { Platform, NavController, NavParams, Content } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 import { Storage } from '@ionic/storage';
 
@@ -10,25 +10,24 @@ import {SearchPage} from '../search/search';
 	templateUrl: 'entrylocal.html',
 })
 export class EntrylocalPage {
-	@ViewChild(Content) content: Content;
-	item:any = null;
+	item:any;
 	page:any;
 	tags:any;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, public launchnavigator: LaunchNavigator, public storage: Storage, private platform: Platform) {
+	constructor(public navCtrl: NavController, public navParams: NavParams, public launchnavigator: LaunchNavigator, private storage: Storage) {
+		this.item = navParams.get('entry');
+		this.page = navParams.get('page');
 	}
 
-	async ionViewWillEnter() {
-			console.log('8218 Will Enter');
-			var storeditem = this.storage.get('entrytab');
-			if (storeditem !== null) {
-				this.storage.set('entrytab', undefined);
-				this.item = storeditem;
-				console.log('8218 EntryPage');
-				console.log('8218 Item: ' + this.item); 
-				this.tags = this.item[14].split(',');
-				this.tags.splice(this.tags.length-1, 1);
-			}
+	ionViewDidLoad() {
+		console.log('8218 EntryPage');
+		this.tags = this.item[14].split(',');
+		this.tags.splice(this.tags.length-1, 1);
+	}
+
+	ionViewWillLeave() {
+		console.log('8218 Will Leave');
+		this.navCtrl.pop();
 	}
 
 	openNav() {
@@ -39,6 +38,12 @@ export class EntrylocalPage {
 	searchTag(event:any) {
 		console.log('8218 Event: ' + event);
 		this.storage.set('searchtag', event);
-		this.navCtrl.parent.select(0);
+		if(this.page == "home") {
+			this.navCtrl.parent.select(0);
+			//
+		} else {
+		this.navCtrl.getPrevious().data.searchterm = '#' + event;
+			this.navCtrl.pop();
+		}
 	}
 }
