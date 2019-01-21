@@ -18,6 +18,7 @@ import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResul
 
 import { EntrylocalPage } from '../entrylocal/entrylocal';
 import { HometabPage } from '../hometab/hometab';
+import { AboutusPage } from '../aboutus/aboutus';
 
 @Component({
 	selector: 'page-home',
@@ -82,9 +83,11 @@ export class HomePage {
 				if(this.map === undefined) {
 					console.log('8218 Setting View');
 					this.map = leaflet.map("map", {zoomControl: false}).setView([50.888, 10], 5.3);
+					/*leaflet.control.zoom({
+						position:'bottomright'
+					}).addTo(this.map);*/
 					console.log('8218 Setting Card...');
-					var token = 'YOUR_API_TOKEN';
-					leaflet.tileLayer('http://a.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=' + token, {
+					leaflet.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
 						attributions: '<a class="osm attr" href=https://wikimediafoundation.org/wiki/Maps_Terms_of_Use> Wikimedia </a>',
 						maxZoom: 17
 					}).addTo(this.map);
@@ -210,6 +213,8 @@ export class HomePage {
 			let self = this;
 			div_popup.innerHTML = '<b class="title" style="padding: 12px;">' + data[4] +  '</b>';
 
+			//TEST div_popup.innerHTML = '<div style="display: inline-block;"><b class="title" style="padding: 12px;">' + data[4] +  '</b><img src="../../assets/imgs/arrow.svg" no-repeat style="height: 12px;"></div>';
+
 			$('b.title', div_popup).on('click', function() {
 				self.gotoEntry(data);
 			});
@@ -220,6 +225,11 @@ export class HomePage {
 				marker.bindPopup(popup);
 			}
 		}
+	}
+
+	openInfoPage() {
+		console.log('8218 OpenInfoPage');
+                this.navCtrl.push(AboutusPage);
 	}
 
 	gotoEntry(event) {
@@ -314,6 +324,7 @@ export class HomePage {
 									this.marker  = leaflet.marker([e.latitude, e.longitude], {icon: redIcon});
 									this.storage.set('oldlat', e.latitude);
 									this.storage.set('oldlong', e.longitude);
+									this.statlat = e.latitude;
 									this.oldloclat = e.latitude;
 									this.oldloclong = e.longitude;
 									this.statlong = e.longitude;
@@ -505,7 +516,7 @@ export class HomePage {
 						let minlng:number = this.statlong - 0.2;
 						let maxlat:number = parseFloat(this.statlat) + 0.2;
 						let maxlng:number = parseFloat(this.statlong) + 0.2;
-						let transurl = 'http://api.ofdb.io/v0/export/entries.csv?bbox=' + minlat + ',' + minlng  +',' + maxlat + ',' + maxlng;
+						let transurl = 'https://api.ofdb.io/v0/export/entries.csv?bbox=' + minlat + ',' + minlng  +',' + maxlat + ',' + maxlng;
 						transfer.download(transurl, path + 'data.csv')
 							.then(entry => {
 								let url = entry.toURL();
@@ -566,7 +577,7 @@ export class HomePage {
 						this.storage.set('day', new Date().getDate() + 3);
 						this.storage.set('month', new Date().getMonth());
 						this.storage.set('year', new Date().getFullYear());
-						let transurlall = 'http://api.ofdb.io/v0/export/entries.csv?bbox=47.497972542230855,0.7996758709088782,54.63407558981465,18.307256321725717';
+						let transurlall = 'https://api.ofdb.io/v0/export/entries.csv?bbox=47.497972542230855,0.7996758709088782,54.63407558981465,18.307256321725717';
 						transfer.download(transurlall, path + 'alldata.csv')
 							.then(entry => {
 								let url = entry.toURL();

@@ -8,6 +8,7 @@ import { Storage } from '@ionic/storage';
 import { HomePage } from '../home/home';
 import { EntrylocalPage } from '../entrylocal/entrylocal';
 import { HometabPage } from '../hometab/hometab';
+import { AboutusPage } from '../aboutus/aboutus';
 
 @Component({
 	selector: 'page-searchlocal',
@@ -54,6 +55,13 @@ export class SearchlocalPage {
 		}
 	}
 
+	openInfoPage() {
+		console.log('8218 OpenInfoPage');
+		this.navCtrl.push(AboutusPage);
+	}
+
+
+
 	ionViewDidEnter() {
 		this.platform.ready().then(() => {
 			this.setoldloc();
@@ -95,7 +103,7 @@ export class SearchlocalPage {
 						}
 
 						this.filterdata = this.parsedData.filter((item) => {
-							if(item[4] !== undefined){
+							if(item[4] !== undefined && item[14] !== undefined && item[10] !== undefined){
 								if(tag === 1) {
 									if(item[14].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) {
 										item[30] = this.distance(this.oldlat, this.oldlong, item[6], item[7], "K").toFixed(2);
@@ -132,12 +140,13 @@ export class SearchlocalPage {
 						this.loader.dismiss();
 						this.show = 1;
 
+
 					}).catch((err)=> {
-						console.log('8218 Addmarker Err: ' + JSON.stringify(err));
+						console.log('8218 Addmarker Err: ' + err.message);
 						this.loader.dismiss();
 					});
 
-			} else {
+		} else {
 				console.log('8218 SearchTerm: Undefined');
 				this.loader.dismiss();
 			}

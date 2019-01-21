@@ -1,6 +1,68 @@
 webpackJsonp([1],{
 
-/***/ 129:
+/***/ 100:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EntryPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_launch_navigator__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(57);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var EntryPage = /** @class */ (function () {
+    function EntryPage(navCtrl, navParams, launchnavigator) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.launchnavigator = launchnavigator;
+        this.item = navParams.get('entry');
+        this.page = navParams.get('page');
+    }
+    EntryPage.prototype.ionViewDidLoad = function () {
+        console.log('8218 EntryPage');
+        this.tags = this.item[14].split(',');
+        this.tags.splice(this.tags.length - 1, 1);
+    };
+    EntryPage.prototype.openNav = function () {
+        console.log('8218 OpenNav');
+        this.launchnavigator.navigate([this.item[6], this.item[7]]); //6 & 7
+    };
+    EntryPage.prototype.searchTag = function (event) {
+        console.log('8218 Event: ' + event);
+        if (this.page == "home") {
+            this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_3__search_search__["a" /* SearchPage */], { searchterm: '#' + event });
+        }
+        else {
+            this.navCtrl.getPrevious().data.searchterm = '#' + event;
+            this.navCtrl.pop();
+        }
+    };
+    EntryPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-entry',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/entry/entry.html"*/'<ion-header>\n	<ion-navbar>\n		<ion-title>Eintrag</ion-title>\n	</ion-navbar>\n</ion-header>\n\n\n<ion-content padding>\n	<div *ngIf="item[13] == \'Unternehmen\'">\n		<span style="color: rgb(0, 152, 137);">Unternehmen</span>\n	</div>\n	<div *ngIf="item[13] == \'Initiative\'">\n		<span style="color: rgb(151,191,13);">Initiative</span>\n	</div>\n	<h2>{{item[4]}}</h2>\n	<p>{{item[5]}}</p>\n\n	<svg aria-hidden="true" data-prefix="fas" data-icon="globe-africa" style="width: 1em; height: 1em;" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm160 215.5v6.93c0 5.87-3.32 11.24-8.57 13.86l-15.39 7.7a15.485 15.485 0 0 1-15.53-.97l-18.21-12.14a15.52 15.52 0 0 0-13.5-1.81l-2.65.88c-9.7 3.23-13.66 14.79-7.99 23.3l13.24 19.86c2.87 4.31 7.71 6.9 12.89 6.9h8.21c8.56 0 15.5 6.94 15.5 15.5v11.34c0 3.35-1.09 6.62-3.1 9.3l-18.74 24.98c-1.42 1.9-2.39 4.1-2.83 6.43l-4.3 22.83c-.62 3.29-2.29 6.29-4.76 8.56a159.608 159.608 0 0 0-25 29.16l-13.03 19.55a27.756 27.756 0 0 1-23.09 12.36c-10.51 0-20.12-5.94-24.82-15.34a78.902 78.902 0 0 1-8.33-35.29V367.5c0-8.56-6.94-15.5-15.5-15.5h-25.88c-14.49 0-28.38-5.76-38.63-16a54.659 54.659 0 0 1-16-38.63v-14.06c0-17.19 8.1-33.38 21.85-43.7l27.58-20.69a54.663 54.663 0 0 1 32.78-10.93h.89c8.48 0 16.85 1.97 24.43 5.77l14.72 7.36c3.68 1.84 7.93 2.14 11.83.84l47.31-15.77c6.33-2.11 10.6-8.03 10.6-14.7 0-8.56-6.94-15.5-15.5-15.5h-10.09c-4.11 0-8.05-1.63-10.96-4.54l-6.92-6.92a15.493 15.493 0 0 0-10.96-4.54H199.5c-8.56 0-15.5-6.94-15.5-15.5v-4.4c0-7.11 4.84-13.31 11.74-15.04l14.45-3.61c3.74-.94 7-3.23 9.14-6.44l8.08-12.11c2.87-4.31 7.71-6.9 12.89-6.9h24.21c8.56 0 15.5-6.94 15.5-15.5v-21.7C359.23 71.63 422.86 131.02 441.93 208H423.5c-8.56 0-15.5 6.94-15.5 15.5z"></path></svg>\n	<a href="{{item[12]}}" target="_blank" style="text-decoration: none;">{{item[12]}}</a><br/>\n\n\n	<svg aria-hidden="true" data-prefix="fas" data-icon="map-marker-alt" style="width: 0.75em;" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"></path></svg>\n	{{item[8]}}, {{item[9]}} {{item[10]}}\n	<br>\n	<svg aria-hidden="true" data-prefix="fas" data-icon="route" style="width: 1em; height: 1em;" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M416 320h-96c-17.6 0-32-14.4-32-32s14.4-32 32-32h96s96-107 96-160-43-96-96-96-96 43-96 96c0 25.5 22.2 63.4 45.3 96H320c-52.9 0-96 43.1-96 96s43.1 96 96 96h96c17.6 0 32 14.4 32 32s-14.4 32-32 32H185.5c-16 24.8-33.8 47.7-47.3 64H416c52.9 0 96-43.1 96-96s-43.1-96-96-96zm0-256c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zM96 256c-53 0-96 43-96 96s96 160 96 160 96-107 96-160-43-96-96-96zm0 128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"></path></svg>\n	<a (click)=\'openNav()\'>Routenplaner<br/></a>\n	<p *ngIf="item[30] !== undefined">Ungefähre Entfernung vom Standort: {{item[30]}} km</p>\n	<br/>\n	<div *ngFor="let tag of tags" style="\n	font-size: 1em;\n	display: inline-block;\n	background: #eaeaea;\n	color: #333;\n	border-radius: 0.3em;\n	padding: 0.2em 0.4em;\n	margin-right: 0.4em;" (click)=\'searchTag(tag)\'>\n		#{{tag}}\n	</div>\n\n</ion-content>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/entry/entry.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_launch_navigator__["a" /* LaunchNavigator */]])
+    ], EntryPage);
+    return EntryPage;
+}());
+
+//# sourceMappingURL=entry.js.map
+
+/***/ }),
+
+/***/ 131:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -13,11 +75,11 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 129;
+webpackEmptyAsyncContext.id = 131;
 
 /***/ }),
 
-/***/ 170:
+/***/ 172:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -37,23 +99,24 @@ function webpackAsyncContext(req) {
 webpackAsyncContext.keys = function webpackAsyncContextKeys() {
 	return Object.keys(map);
 };
-webpackAsyncContext.id = 170;
+webpackAsyncContext.id = 172;
 module.exports = webpackAsyncContext;
 
 /***/ }),
 
-/***/ 171:
+/***/ 173:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchlocalPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_papaparse__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_papaparse__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_papaparse___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_papaparse__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_file__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_storage__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__entrylocal_entrylocal__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__entrylocal_entrylocal__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__aboutus_aboutus__ = __webpack_require__(56);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -98,6 +161,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+
 
 
 
@@ -167,6 +231,10 @@ var SearchlocalPage = /** @class */ (function () {
             });
         });
     };
+    SearchlocalPage.prototype.openInfoPage = function () {
+        console.log('8218 OpenInfoPage');
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__aboutus_aboutus__["a" /* AboutusPage */]);
+    };
     SearchlocalPage.prototype.ionViewDidEnter = function () {
         var _this = this;
         this.platform.ready().then(function () {
@@ -203,7 +271,7 @@ var SearchlocalPage = /** @class */ (function () {
                         console.log('8218 SearchTerm: ' + _this.searchTerm);
                     }
                     _this.filterdata = _this.parsedData.filter(function (item) {
-                        if (item[4] !== undefined) {
+                        if (item[4] !== undefined && item[14] !== undefined && item[10] !== undefined) {
                             if (tag === 1) {
                                 if (item[14].toLowerCase().indexOf(_this.searchTerm.toLowerCase()) > -1) {
                                     item[30] = _this.distance(_this.oldlat, _this.oldlong, item[6], item[7], "K").toFixed(2);
@@ -244,7 +312,7 @@ var SearchlocalPage = /** @class */ (function () {
                     _this.loader.dismiss();
                     _this.show = 1;
                 }).catch(function (err) {
-                    console.log('8218 Addmarker Err: ' + JSON.stringify(err));
+                    console.log('8218 Addmarker Err: ' + err.message);
                     _this.loader.dismiss();
                 });
             }
@@ -318,7 +386,7 @@ var SearchlocalPage = /** @class */ (function () {
     };
     SearchlocalPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-searchlocal',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/searchlocal/searchlocal.html"*/'<ion-header no-border>\n	<ion-navbar>\n		<ion-searchbar [(ngModel)]="searchTerm" (keyup.enter)="setFilteredItems($event)" [showCancelButton]="shouldShowCancel" placeholder="Suche lokal" ></ion-searchbar>\n		<ion-buttons end>\n			<button ion-button menuToggle>\n				<ion-icon name="menu"></ion-icon>\n			</button>\n		</ion-buttons>\n	</ion-navbar>\n</ion-header>\n\n<ion-content padding>\n	<ion-list>\n		<ion-item *ngFor="let item of filterdata;  let i = index" (click)=\'showitem(item)\'>\n			<strong>{{item[4]}}</strong> <br/>\n			{{item[5]}}<br/>\n			<p align="right"><small>&asymp; {{item[30]}} km </small></p>\n		</ion-item>\n	</ion-list>\n</ion-content>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/searchlocal/searchlocal.html"*/
+            selector: 'page-searchlocal',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/searchlocal/searchlocal.html"*/'<ion-header no-border>\n	<ion-navbar>\n		<ion-searchbar [(ngModel)]="searchTerm" (keyup.enter)="setFilteredItems($event)" [showCancelButton]="shouldShowCancel" placeholder="Suche"></ion-searchbar>\n		<ion-buttons end>\n			<button icon-only ion-button menuClose (click)="openInfoPage()">\n				<ion-icon name="ios-information-circle-outline"></ion-icon>\n			</button>\n		</ion-buttons>\n	</ion-navbar>\n</ion-header>\n\n<ion-content padding>\n	<ion-list>\n		<ion-item *ngFor="let item of filterdata;  let i = index" (click)=\'showitem(item)\'>\n			<strong>{{item[4]}}</strong> <br/>\n			{{item[5]}}<br/>\n			<p align="right"><small>&asymp; {{item[30]}} km </small></p>\n		</ion-item>\n		<ion-item>\n			<strong>Globale Suche</strong> <br/>\n			Coming soon!<br/>\n		</ion-item>\n	</ion-list>\n</ion-content>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/searchlocal/searchlocal.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_file__["a" /* File */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */], __WEBPACK_IMPORTED_MODULE_4__ionic_storage__["b" /* Storage */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* App */]])
     ], SearchlocalPage);
@@ -329,18 +397,18 @@ var SearchlocalPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 184:
+/***/ 186:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EntrycardPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_leaflet__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_leaflet__ = __webpack_require__(183);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_leaflet___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_leaflet__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery__ = __webpack_require__(182);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery__ = __webpack_require__(184);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entry_entry__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entry_entry__ = __webpack_require__(100);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -464,7 +532,7 @@ var EntrycardPage = /** @class */ (function () {
     ], EntrycardPage.prototype, "mapContainer", void 0);
     EntrycardPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-entrycard',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/entrycard/entrycard.html"*/'<ion-header>\n	<ion-navbar>\n		<button ion-button menuToggle>\n			<ion-icon name="menu"></ion-icon>\n		</button>\n		<ion-title>Suchergebnisse</ion-title>\n	</ion-navbar>\n</ion-header>\n\n<ion-content>\n  <div id="mapentry" style="width:100%; height:100%;"></div>\n</ion-content>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/entrycard/entrycard.html"*/
+            selector: 'page-entrycard',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/entrycard/entrycard.html"*/'<ion-header>\n	<ion-navbar>\n		<button ion-button menuToggle>\n			<ion-icon name="menu"></ion-icon>\n		</button>\n		<ion-title>Suchergebnisse</ion-title>\n	</ion-navbar>\n</ion-header>\n\n<ion-content>\n  <div id="mapentry" style="width:100%; height:100%;"></div>\n</ion-content>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/entrycard/entrycard.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* App */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
     ], EntrycardPage);
@@ -475,80 +543,6 @@ var EntrycardPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 230:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AboutusPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var AboutusPage = /** @class */ (function () {
-    function AboutusPage(navCtrl) {
-        this.navCtrl = navCtrl;
-    }
-    AboutusPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-aboutus',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/aboutus/aboutus.html"*/'<ion-header>\n	<ion-navbar>\n		<ion-title>Über uns</ion-title>\n		<ion-buttons end>\n			<button ion-button menuToggle>\n				<ion-icon name="menu"></ion-icon>\n			</button>\n		</ion-buttons>\n	</ion-navbar>\n</ion-header>\n\n<ion-content padding>\n	<div text-center>\n		<h1>Das Projekt</h1>\n		<p><!-- react-text: 269 -->Neuigkeiten und aktuelles auf<!-- /react-text --><!-- react-text: 270 --> <!-- /react-text --><a target="_blank" href="https://www.facebook.com/vonmorgen">Facebook</a><br><!-- react-text: 273 -->Fortschrittsberichte auf<!-- /react-text --><!-- react-text: 274 --> <!-- /react-text --><a target="_blank" href="https://www.betterplace.org/de/projects/36213/newsroom">unserem Blog auf Betterplace</a></p>\n		<br>\n		<p>Unsere interaktive Karte zeigt dir Orte in deiner Umgebung, an denen man sich schon heute für eine Welt von morgen einsetzt.</p>\n		<p><!-- react-text: 279 -->Du hast eine Initiative, für die du Mitstreiter*innen suchst?<!-- /react-text --><br><!-- react-text: 281 -->Du kennst ein Unternehmen, das nachhaltig wirtschaftet?<!-- /react-text --><br><!-- react-text: 283 -->Auf unserer Website kannst du andere darauf aufmerksam machen – und dich so für einen von Menschen gestalteten Ort einsetzen, der dir persönlich am Herzen liegt.<!-- /react-text --></p>\n		<p>Wir sind auf der Suche nach vielfältigen Ideen, Initiativen und Unternehmen, die den aktuellen sozialen, ökologischen und ökonomischen Umbrüchen alternativ entgegen wirken. Diese möchten wir vernetzten und ihnen möchten wir einen gemeinsamen Online-Auftritt und damit eine erhöhte Aufmerksamkeit ermöglichen.</p>\n		<p>Nach dem Wiki-Prinzip können alle Nutzer*innen, Initiativen und Unternehmen sich und andere auf der Karte eintragen und so ihre Mitmenschen erreichen. Doch von morgen ist mehr als eine Onlineplattform: Regionalpilot*innen sichern vor Ort die Qualität der Karteneinträge und haben neben einer redaktionellen Funktion die Aufgabe durch Bildungsveranstaltungen und Aktionen den regionalen Austausch zwischen Bürger*innen, Initiativen und Unternehmen zu stärken.</p>\n		<p>von morgen fragt nach Werten, die unsere Gesellschaft fundieren und bewegen. Wir zeigen Menschen, die Guten tun, wo es Gutes gibt.</p>\n		<img class="landing-img" src="../../assets/imgs/aboutus.jpg">\n		<br>\n		<br>\n		<h3>Hintergründe und Visionen</h3>\n		<a target="_blank" href="http://bildungsagenten.org/kartevonmorgen/">Was will die Karte von morgen?</a>\n		<br>\n		<a target="_blank" href="http://bildungsagenten.org/kartevonmorgen/2/">Was sind die Positivfaktoren?</a>\n		<br>\n		<a target="_blank" href="http://bildungsagenten.org/kartevonmorgen/3/">Was sind Regionalpilot*innen bzw. Themenpilot*innen?</a>\n		<br>\n		<a target="_blank" href="http://bildungsagenten.org/kartevonmorgen/3/#Widget_zum_Einbetten">Wie kann ich die Karte auf meiner Homepage einbetten?</a>\n		<br>\n		<a target="_blank" href="http://bildungsagenten.org/kartevonmorgen/4/">Wie kann ich mitmachen oder die Karte von morgen unterstützen?</a>\n		<br>\n		<p><br><i class="fa fa-facebook"></i><!-- react-text: 304 --> <!-- /react-text --><a target="_blank" href="https://www.facebook.com/vonmorgen">facebook.com/vonmorgen</a><br><i class="fa fa-envelope-o"></i><!-- react-text: 308 --> <!-- /react-text --><a target="_blank" href="mailto:info@kartevonmorgen.org">info@kartevonmorgen.org</a><br></p>\n		<br>\n		<br>\n		<h3>Wir lieben Open Source!</h3>\n		<p>Wir wollen mit gutem Beispiel vorangehen und entwickeln daher die Software transparent und offen. Den Quellcode des Gemeinschaftsprojekts findest du unter:</p>\n		<p><i class="fa fa-github"></i><!-- react-text: 317 --> <!-- /react-text --><a target="_blank" href="https://github.com/flosse/kartevonmorgen">github.com/flosse/kartevonmorgen</a></p>\n		<img class="landing-img" src="../../assets/imgs/aboutus1.jpg">\n		<br>\n		<br>\n		<h3>Workshops und Aktionen von morgen</h3>\n		<p><!-- react-text: 324 -->Gemeinsam mit unserem Partner, dem gemeinnützigen Verein Ideen³ e.V. und der "Ideenwerkstatt Bildungsagenten", bieten wir Workshops zu verschiedenen Themen an, um die sozial-ökologische Transformation zu unterstützen.<!-- /react-text --><br><a target="_blank" href="http://bildungsagenten.org">www.bildungsagenten.org</a></p>\n		<img class="landing-img" src="../../assets/imgs/aboutus2.jpg">\n	</div>\n</ion-content>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/aboutus/aboutus.html"*/
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]])
-    ], AboutusPage);
-    return AboutusPage;
-}());
-
-//# sourceMappingURL=aboutus.js.map
-
-/***/ }),
-
-/***/ 231:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TermsPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var TermsPage = /** @class */ (function () {
-    function TermsPage(navCtrl, platform) {
-        this.navCtrl = navCtrl;
-        this.platform = platform;
-        this.version = '1.2';
-    }
-    TermsPage.prototype.ionViewDidEnter = function () {
-    };
-    TermsPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-terms',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/terms/terms.html"*/'<ion-header>\n	<ion-navbar>\n		<ion-title>Informationen</ion-title>\n		<ion-buttons end>\n			<button ion-button menuToggle>\n				<ion-icon name="menu"></ion-icon>\n			</button>\n		</ion-buttons>\n	</ion-navbar>\n</ion-header>\n\n<ion-content padding>\n	<p>Version {{version}}</p>\n	<p>Entwicklung im Auftrag der "Karte von morgen"</p>\n	<h2>Impressum</h2>\n	<p>Angaben gemäß § 5 TMG</p>\n	<p>Alexander Reiner <br> \n	Neuhofweg 4<br> \n	71729 Erdmannhausen <br> \n	</p>\n	<p><strong>Kontakt:</strong> <br>\n	Telefon: 015221355757<br>\n	E-Mail: <a href=\'mailto:alex@ithomies.de\'>alex@ithomies.de</a>\n	<br><br>\n\n	<h2>Privacy Policy</h2> <p> Alexander Reiner built the Karte von morgen app as a Free app. This SERVICE is provided by\n	Alexander Reiner at no cost and is intended for use as is.\n	</p> <p>This page is used to inform visitors regarding my policies with the collection, use, and disclosure\n	of Personal Information if anyone decided to use my Service.\n	</p> <p>If you choose to use my Service, then you agree to the collection and use of information in\n	relation to this policy. The Personal Information that I collect is used for providing and improving\n	the Service. I will not use or share your information with anyone except as described\n	in this Privacy Policy.\n	</p> <p>The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is\n	accessible at Karte von morgen unless otherwise defined in this Privacy Policy.\n	</p> <p><strong>Information Collection and Use</strong></p> <p>For a better experience, while using our Service, I may require you to provide us with certain\n	personally identifiable information, including but not limited to GPS. The information that I request will be retained on your device and is not collected by me in any way.\n	</p> <p>The app does use third party services that may collect information used to identify you.</p> <div><p>Link to privacy policy of third party service providers used by the app</p> <ul><!----><!----><!----><!----><!----><!----><!----><!----></ul></div> <p><strong>Log Data</strong></p> <p> I want to inform you that whenever you use my Service, in a case of\n	an error in the app I collect data and information (through third party products) on your phone\n	called Log Data. This Log Data may include information such as your device Internet Protocol (“IP”) address,\n	device name, operating system version, the configuration of the app when utilizing my Service,\n	the time and date of your use of the Service, and other statistics.\n	</p> <p><strong>Cookies</strong></p> <p>Cookies are files with a small amount of data that are commonly used as anonymous unique identifiers.\n	These are sent to your browser from the websites that you visit and are stored on your device\'s internal\n	memory.\n	</p> <p>This Service does not use these “cookies” explicitly. However, the app may use third party code and\n	libraries that use “cookies” to collect information and improve their services. You have the option to\n	either accept or refuse these cookies and know when a cookie is being sent to your device. If you choose\n	to refuse our cookies, you may not be able to use some portions of this Service.\n	</p> <p><strong>Service Providers</strong></p> <p> I may employ third-party companies and individuals due to the following reasons:</p> <ul><li>To facilitate our Service;</li> <li>To provide the Service on our behalf;</li> <li>To perform Service-related services; or</li> <li>To assist us in analyzing how our Service is used.</li></ul> <p> I want to inform users of this Service that these third parties have access to\n	your Personal Information. The reason is to perform the tasks assigned to them on our behalf. However,\n	they are obligated not to disclose or use the information for any other purpose.\n	</p> <p><strong>Security</strong></p> <p> I value your trust in providing us your Personal Information, thus we are striving\n	to use commercially acceptable means of protecting it. But remember that no method of transmission over\n	the internet, or method of electronic storage is 100% secure and reliable, and I cannot guarantee\n	its absolute security.\n	</p> <p><strong>Links to Other Sites</strong></p> <p>This Service may contain links to other sites. If you click on a third-party link, you will be directed\n	to that site. Note that these external sites are not operated by me. Therefore, I strongly\n	advise you to review the Privacy Policy of these websites. I have no control over\n	and assume no responsibility for the content, privacy policies, or practices of any third-party sites\n	or services.\n	</p> <p><strong>Children’s Privacy</strong></p> <p>These Services do not address anyone under the age of 13. I do not knowingly collect\n	personally identifiable information from children under 13. In the case I discover that a child\n	under 13 has provided me with personal information, I immediately delete this from\n	our servers. If you are a parent or guardian and you are aware that your child has provided us with personal\n	information, please contact me so that I will be able to do necessary actions.\n	</p> <p><strong>Changes to This Privacy Policy</strong></p> <p> I may update our Privacy Policy from time to time. Thus, you are advised to review\n	this page periodically for any changes. I will notify you of any changes by posting\n	the new Privacy Policy on this page. These changes are effective immediately after they are posted on\n	this page.\n	</p> <p><strong>Contact Us</strong></p> <p>If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact\n	me.\n	</p> <p>This privacy policy page was created at <a href="https://privacypolicytemplate.net" target="_blank">privacypolicytemplate.net</a>\n	and modified/generated by <a href="https://app-privacy-policy-generator.firebaseapp.com/" target="_blank">App\n		Privacy Policy Generator</a></p>\n\n	<ion-list>\n	</ion-list>\n</ion-content>\n\n<!--<ion-content>\n  <div id="mapevent" style="width:100%; height:100%;"></div>\n</ion-content>-->\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/terms/terms.html"*/
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */]])
-    ], TermsPage);
-    return TermsPage;
-}());
-
-//# sourceMappingURL=terms.js.map
-
-/***/ }),
-
 /***/ 232:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -556,7 +550,7 @@ var TermsPage = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return IntroPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__hometab_hometab__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__hometab_hometab__ = __webpack_require__(62);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -588,7 +582,7 @@ var IntroPage = /** @class */ (function () {
     };
     IntroPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-intro',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/intro/intro.html"*/'<ion-slides pager="true">\n	<ion-slide style="background-color: white;">\n		<ion-row>\n			<ion-col>\n				<span>Herzlich Willkommen<br/>bei der App zur Karte von morgen!</span>\n			</ion-col>\n		</ion-row>\n		<ion-row>\n			<ion-col>\n				<img src="../../assets/imgs/kvm_besch.png" style="height: 23vh !important; width: auto !important; margin: auto; margin-top: 2vh;"/>\n			</ion-col>\n		</ion-row>\n	</ion-slide>\n\n\n	<ion-slide>\n		<ion-row>\n			<ion-col>\n				<span>Hier findest du die Einträge<br/> rund um deinen Standort.</span>\n			</ion-col>\n		</ion-row>\n		<ion-row>\n			<ion-col>\n				<img src="../../assets/imgs/slide1.jpg" style="margin-top: 2vh; box-shadow: 1px 1px 5px rgba(0,0,0,.5);"/>\n			</ion-col>\n		</ion-row>\n	</ion-slide>\n\n	<ion-slide style="background-color: rgb(0, 152, 137);">\n		<ion-row>\n			<ion-col>\n				<span>Durch Klick auf den Marker<br/>erfährst du den Namen des Eintrags.</span>\n			</ion-col>\n		</ion-row>\n		<ion-row>\n			<ion-col>\n				<img src="../../assets/imgs/slide2.png" style="margin-top: 2vh; box-shadow: 1px 1px 5px rgba(0,0,0,.5);"/>\n			</ion-col>\n		</ion-row>\n	</ion-slide>\n\n	<ion-slide style="background-color: rgb(170, 56, 108);">\n		<ion-row>\n			<ion-col>\n				<span>Hier sind weitere Informationen<br/>über den Eintrag.</span>\n			</ion-col>\n		</ion-row>\n		<ion-row>\n			<ion-col>\n				<img src="../../assets/imgs/slide3.png" style="margin-top: 2vh; box-shadow: 1px 1px 5px rgba(0,0,0,.5);"/>\n			</ion-col>\n		</ion-row>\n	</ion-slide>\n\n	<ion-slide style="background-color: rgb(214, 201, 0);">\n		<ion-row>\n			<ion-col>\n				<span>Die lokalen Einträgen<br/>können durchsucht werden.</span>\n			</ion-col>\n		</ion-row>\n		<ion-row>\n			<ion-col>\n				<img src="../../assets/imgs/slide4.png" style="margin-top: 2vh; box-shadow: 1px 1px 5px rgba(0,0,0,.5);"/>\n			</ion-col>\n		</ion-row>\n		<ion-row>\n			<ion-col>\n				<button ion-button round outline style="border-color: black; color: black;" (click)="goToHome()">Starten</button>\n			</ion-col>\n		</ion-row>\n	</ion-slide>\n</ion-slides>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/intro/intro.html"*/,
+            selector: 'page-intro',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/intro/intro.html"*/'<ion-slides pager="true">\n	<ion-slide style="background-color: white;">\n		<ion-row>\n			<ion-col>\n				<span>Herzlich Willkommen<br/>bei der App zur Karte von morgen!</span>\n			</ion-col>\n		</ion-row>\n		<ion-row>\n			<ion-col>\n				<img src="../../assets/imgs/kvm_besch.png" style="height: 23vh !important; width: auto !important; margin: auto; margin-top: 2vh;"/>\n			</ion-col>\n		</ion-row>\n	</ion-slide>\n\n\n	<ion-slide>\n		<ion-row>\n			<ion-col>\n				<span>Hier findest du die Einträge<br/> rund um deinen Standort.</span>\n			</ion-col>\n		</ion-row>\n		<ion-row>\n			<ion-col>\n				<img src="../../assets/imgs/slide1.jpg" style="margin-top: 2vh; box-shadow: 1px 1px 5px rgba(0,0,0,.5);"/>\n			</ion-col>\n		</ion-row>\n	</ion-slide>\n\n	<ion-slide style="background-color: rgb(0, 152, 137);">\n		<ion-row>\n			<ion-col>\n				<span>Durch Klick auf den Marker<br/>erfährst du den Namen des Eintrags.</span>\n			</ion-col>\n		</ion-row>\n		<ion-row>\n			<ion-col>\n				<img src="../../assets/imgs/slide2.png" style="margin-top: 2vh; box-shadow: 1px 1px 5px rgba(0,0,0,.5);"/>\n			</ion-col>\n		</ion-row>\n	</ion-slide>\n\n	<ion-slide style="background-color: rgb(170, 56, 108);">\n		<ion-row>\n			<ion-col>\n				<span>Hier sind weitere Informationen<br/>über den Eintrag.</span>\n			</ion-col>\n		</ion-row>\n		<ion-row>\n			<ion-col>\n				<img src="../../assets/imgs/slide3.png" style="margin-top: 2vh; box-shadow: 1px 1px 5px rgba(0,0,0,.5);"/>\n			</ion-col>\n		</ion-row>\n	</ion-slide>\n\n	<ion-slide style="background-color: rgb(214, 201, 0);">\n		<ion-row>\n			<ion-col>\n				<span>Die lokalen Einträgen<br/>können durchsucht werden.</span>\n			</ion-col>\n		</ion-row>\n		<ion-row>\n			<ion-col>\n				<img src="../../assets/imgs/slide4.png" style="margin-top: 2vh; box-shadow: 1px 1px 5px rgba(0,0,0,.5);"/>\n			</ion-col>\n		</ion-row>\n		<ion-row>\n			<ion-col>\n				<button ion-button round outline style="border-color: black; color: black;" (click)="goToHome()">Starten</button>\n			</ion-col>\n		</ion-row>\n	</ion-slide>\n</ion-slides>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/intro/intro.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
     ], IntroPage);
@@ -622,28 +616,28 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_component__ = __webpack_require__(320);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_background_geolocation__ = __webpack_require__(187);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_native_geocoder__ = __webpack_require__(189);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_home_home__ = __webpack_require__(96);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_aboutus_aboutus__ = __webpack_require__(230);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_search_search__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_terms_terms__ = __webpack_require__(231);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_entry_entry__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_background_geolocation__ = __webpack_require__(189);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_native_geocoder__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_home_home__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_aboutus_aboutus__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_search_search__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_terms_terms__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_entry_entry__ = __webpack_require__(100);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_intro_intro__ = __webpack_require__(232);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_entrycard_entrycard__ = __webpack_require__(184);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_hometab_hometab__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_searchlocal_searchlocal__ = __webpack_require__(171);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_entrylocal_entrylocal__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_entrycard_entrycard__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_hometab_hometab__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_searchlocal_searchlocal__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_entrylocal_entrylocal__ = __webpack_require__(95);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__ionic_native_file__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__ionic_native_file_transfer__ = __webpack_require__(183);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__ionic_native_status_bar__ = __webpack_require__(229);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__ionic_native_splash_screen__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__ionic_native_file_transfer__ = __webpack_require__(185);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__ionic_native_status_bar__ = __webpack_require__(231);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__ionic_native_splash_screen__ = __webpack_require__(99);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__angular_http__ = __webpack_require__(321);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__ionic_native_diagnostic__ = __webpack_require__(185);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__ionic_native_location_accuracy__ = __webpack_require__(186);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__ionic_native_network__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__ionic_native_diagnostic__ = __webpack_require__(187);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__ionic_native_location_accuracy__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__ionic_native_network__ = __webpack_require__(190);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__ionic_storage__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__ionic_native_launch_navigator__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__ionic_native_launch_navigator__ = __webpack_require__(96);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -761,12 +755,12 @@ var AppModule = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(229);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(97);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_hometab_hometab__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_aboutus_aboutus__ = __webpack_require__(230);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_terms_terms__ = __webpack_require__(231);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_search_search__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(231);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_hometab_hometab__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_aboutus_aboutus__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_terms_terms__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_search_search__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_intro_intro__ = __webpack_require__(232);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ionic_storage__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ionic_native_file__ = __webpack_require__(46);
@@ -844,7 +838,7 @@ var MyApp = /** @class */ (function () {
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Nav */])
     ], MyApp.prototype, "nav", void 0);
     MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/app/app.html"*/'<ion-menu [content]="content" side="right" type="overlay">\n	<ion-header>\n		<ion-toolbar>\n			<ion-title>\n				Menü\n			</ion-title>\n			<ion-buttons end>\n				<button icon-only ion-button menuClose (click)="openInfoPage()">\n					<ion-icon name="ios-information-circle-outline"></ion-icon>\n				</button>\n			</ion-buttons>\n		</ion-toolbar>\n	</ion-header>\n	<ion-content>\n		<ion-item>\n			<img src="assets/imgs/kvm_besch.png">\n		</ion-item>\n		<ion-list>\n			<button menuClose="right" ion-item *ngFor="let p of pages" (click)="openPage(p)">\n				{{p.title}}\n			</button>\n		</ion-list>\n	</ion-content>\n</ion-menu>\n\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/app/app.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/app/app.html"*/'<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/app/app.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */], __WEBPACK_IMPORTED_MODULE_9__ionic_storage__["b" /* Storage */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* App */], __WEBPACK_IMPORTED_MODULE_10__ionic_native_file__["a" /* File */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* LoadingController */]])
     ], MyApp);
@@ -859,16 +853,57 @@ var MyApp = /** @class */ (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AboutusPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__terms_terms__ = __webpack_require__(97);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var AboutusPage = /** @class */ (function () {
+    function AboutusPage(navCtrl) {
+        this.navCtrl = navCtrl;
+    }
+    AboutusPage.prototype.toTerms = function () {
+        console.log('8218 toTerms');
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__terms_terms__["a" /* TermsPage */]);
+    };
+    AboutusPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-aboutus',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/aboutus/aboutus.html"*/'<ion-header>\n	<ion-navbar>\n		<ion-title>Über uns</ion-title>\n		<ion-buttons end>\n			<button icon-only ion-button menuClose (click)="toTerms()">\n				<ion-icon name="people"></ion-icon>\n			</button>\n		</ion-buttons>\n	</ion-navbar>\n</ion-header>\n\n<ion-content padding>\n	<div text-center>\n		<h1>Das Projekt</h1>\n		<p><!-- react-text: 269 -->Neuigkeiten und aktuelles auf<!-- /react-text --><!-- react-text: 270 --> <!-- /react-text --><a target="_blank" href="https://www.facebook.com/vonmorgen">Facebook</a><br><!-- react-text: 273 -->Fortschrittsberichte auf<!-- /react-text --><!-- react-text: 274 --> <!-- /react-text --><a target="_blank" href="https://www.betterplace.org/de/projects/36213/newsroom">unserem Blog auf Betterplace</a></p>\n		<br>\n		<p>Unsere interaktive Karte zeigt dir Orte in deiner Umgebung, an denen man sich schon heute für eine Welt von morgen einsetzt.</p>\n		<p><!-- react-text: 279 -->Du hast eine Initiative, für die du Mitstreiter*innen suchst?<!-- /react-text --><br><!-- react-text: 281 -->Du kennst ein Unternehmen, das nachhaltig wirtschaftet?<!-- /react-text --><br><!-- react-text: 283 -->Auf unserer Website kannst du andere darauf aufmerksam machen – und dich so für einen von Menschen gestalteten Ort einsetzen, der dir persönlich am Herzen liegt.<!-- /react-text --></p>\n		<p>Wir sind auf der Suche nach vielfältigen Ideen, Initiativen und Unternehmen, die den aktuellen sozialen, ökologischen und ökonomischen Umbrüchen alternativ entgegen wirken. Diese möchten wir vernetzten und ihnen möchten wir einen gemeinsamen Online-Auftritt und damit eine erhöhte Aufmerksamkeit ermöglichen.</p>\n		<p>Nach dem Wiki-Prinzip können alle Nutzer*innen, Initiativen und Unternehmen sich und andere auf der Karte eintragen und so ihre Mitmenschen erreichen. Doch von morgen ist mehr als eine Onlineplattform: Regionalpilot*innen sichern vor Ort die Qualität der Karteneinträge und haben neben einer redaktionellen Funktion die Aufgabe durch Bildungsveranstaltungen und Aktionen den regionalen Austausch zwischen Bürger*innen, Initiativen und Unternehmen zu stärken.</p>\n		<p>von morgen fragt nach Werten, die unsere Gesellschaft fundieren und bewegen. Wir zeigen Menschen, die Guten tun, wo es Gutes gibt.</p>\n		<img class="landing-img" src="../../assets/imgs/aboutus.jpg">\n		<br>\n		<br>\n		<h3>Hintergründe und Visionen</h3>\n		<a target="_blank" href="http://bildungsagenten.org/kartevonmorgen/">Was will die Karte von morgen?</a>\n		<br>\n		<a target="_blank" href="http://bildungsagenten.org/kartevonmorgen/2/">Was sind die Positivfaktoren?</a>\n		<br>\n		<a target="_blank" href="http://bildungsagenten.org/kartevonmorgen/3/">Was sind Regionalpilot*innen bzw. Themenpilot*innen?</a>\n		<br>\n		<a target="_blank" href="http://bildungsagenten.org/kartevonmorgen/3/#Widget_zum_Einbetten">Wie kann ich die Karte auf meiner Homepage einbetten?</a>\n		<br>\n		<a target="_blank" href="http://bildungsagenten.org/kartevonmorgen/4/">Wie kann ich mitmachen oder die Karte von morgen unterstützen?</a>\n		<br>\n		<p><br><i class="fa fa-facebook"></i><!-- react-text: 304 --> <!-- /react-text --><a target="_blank" href="https://www.facebook.com/vonmorgen">facebook.com/vonmorgen</a><br><i class="fa fa-envelope-o"></i><!-- react-text: 308 --> <!-- /react-text --><a target="_blank" href="mailto:info@kartevonmorgen.org">info@kartevonmorgen.org</a><br></p>\n		<br>\n		<br>\n		<h3>Wir lieben Open Source!</h3>\n		<p>Wir wollen mit gutem Beispiel vorangehen und entwickeln daher die Software transparent und offen. Den Quellcode des Gemeinschaftsprojekts findest du unter:</p>\n		<p><i class="fa fa-github"></i><!-- react-text: 317 --> <!-- /react-text --><a target="_blank" href="https://github.com/flosse/kartevonmorgen">github.com/flosse/kartevonmorgen</a></p>\n		<img class="landing-img" src="../../assets/imgs/aboutus1.jpg">\n		<br>\n		<br>\n		<h3>Workshops und Aktionen von morgen</h3>\n		<p><!-- react-text: 324 -->Gemeinsam mit unserem Partner, dem gemeinnützigen Verein Ideen³ e.V. und der "Ideenwerkstatt Bildungsagenten", bieten wir Workshops zu verschiedenen Themen an, um die sozial-ökologische Transformation zu unterstützen.<!-- /react-text --><br><a target="_blank" href="http://bildungsagenten.org">www.bildungsagenten.org</a></p>\n		<img class="landing-img" src="../../assets/imgs/aboutus2.jpg">\n	</div>\n</ion-content>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/aboutus/aboutus.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]])
+    ], AboutusPage);
+    return AboutusPage;
+}());
+
+//# sourceMappingURL=aboutus.js.map
+
+/***/ }),
+
+/***/ 57:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_papaparse__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_papaparse__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_papaparse___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_papaparse__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_file__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_storage__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__home_home__ = __webpack_require__(96);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__entry_entry__ = __webpack_require__(98);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__entrycard_entrycard__ = __webpack_require__(184);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__home_home__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__entry_entry__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__entrycard_entrycard__ = __webpack_require__(186);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1131,7 +1166,7 @@ var SearchPage = /** @class */ (function () {
     };
     SearchPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-search',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/search/search.html"*/'<ion-header no-border>\n	<ion-navbar>\n		<ion-searchbar [(ngModel)]="searchTerm" (keyup.enter)="setFilteredItems($event)" [showCancelButton]="shouldShowCancel" placeholder="Suche Global" ></ion-searchbar>\n		<ion-buttons end>\n			<button ion-button menuToggle>\n				<ion-icon name="menu"></ion-icon>\n			</button>\n		</ion-buttons>\n	</ion-navbar>\n</ion-header>\n\n<ion-content padding>\n	<ion-list>\n		<ion-item *ngFor="let item of filterdata;  let i = index" (click)=\'showitem(item)\'>\n			<strong>{{item[4]}}</strong> <br/>\n			{{item[5]}}<br/>\n			<p align="right"><small>&asymp; {{item[30]}} km </small></p>\n		</ion-item>\n	</ion-list>\n</ion-content>\n\n<ion-footer>\n	<ion-toolbar>\n		<ion-buttons end>\n			<button ion-button color="save" (click)=\'ShowCard()\' *ngIf="show == true">\n				<span>Zur Karte <ion-icon name="ios-arrow-forward"></ion-icon></span>\n			</button>\n		</ion-buttons>\n	</ion-toolbar>\n</ion-footer>\n<!--<ion-content>\n  <div id="mapevent" style="width:100%; height:100%;"></div>\n</ion-content>-->\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/search/search.html"*/
+            selector: 'page-search',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/search/search.html"*/'<ion-header no-border>\n	<ion-navbar>\n		<ion-searchbar [(ngModel)]="searchTerm" (keyup.enter)="setFilteredItems($event)" [showCancelButton]="shouldShowCancel" placeholder="Suche Global" ></ion-searchbar>\n		<ion-buttons end>\n			<button ion-button menuToggle>\n				<ion-icon name="menu"></ion-icon>\n			</button>\n		</ion-buttons>\n	</ion-navbar>\n</ion-header>\n\n<ion-content padding>\n	<ion-list>\n		<ion-item *ngFor="let item of filterdata;  let i = index" (click)=\'showitem(item)\'>\n			<strong>{{item[4]}}</strong> <br/>\n			{{item[5]}}<br/>\n			<p align="right"><small>&asymp; {{item[30]}} km </small></p>\n		</ion-item>\n	</ion-list>\n</ion-content>\n\n<ion-footer>\n	<ion-toolbar>\n		<ion-buttons end>\n			<button ion-button color="save" (click)=\'ShowCard()\' *ngIf="show == true">\n				<span>Zur Karte <ion-icon name="ios-arrow-forward"></ion-icon></span>\n			</button>\n		</ion-buttons>\n	</ion-toolbar>\n</ion-footer>\n<!--<ion-content>\n  <div id="mapevent" style="width:100%; height:100%;"></div>\n</ion-content>-->\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/search/search.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_file__["a" /* File */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */], __WEBPACK_IMPORTED_MODULE_4__ionic_storage__["b" /* Storage */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* App */]])
     ], SearchPage);
@@ -1142,15 +1177,15 @@ var SearchPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 61:
+/***/ 62:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HometabPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__searchlocal_searchlocal__ = __webpack_require__(171);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_home__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__searchlocal_searchlocal__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__home_home__ = __webpack_require__(98);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1175,7 +1210,7 @@ var HometabPage = /** @class */ (function () {
     }
     HometabPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-hometab',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/hometab/hometab.html"*/'<ion-tabs [selectedIndex]="tabindex">\n    <ion-tab [root]="sucheRoot" tabTitle="Suche" tabIcon="search"></ion-tab>\n    <ion-tab [root]="zurKarteRoot" tabTitle="Karte" [rootParams]="cardparam" tabIcon="ios-map-outline"></ion-tab>\n</ion-tabs>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/hometab/hometab.html"*/
+            selector: 'page-hometab',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/hometab/hometab.html"*/'<ion-tabs [selectedIndex]="tabindex">\n    <ion-tab [root]="sucheRoot" tabTitle="Suche" tabIcon="search"></ion-tab>\n    <ion-tab [root]="zurKarteRoot" tabTitle="Karte" [rootParams]="cardparam" tabIcon="ios-map-outline"></ion-tab>\n</ion-tabs>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/hometab/hometab.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
     ], HometabPage);
@@ -1186,14 +1221,14 @@ var HometabPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 94:
+/***/ 95:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EntrylocalPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_launch_navigator__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_launch_navigator__ = __webpack_require__(96);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_storage__ = __webpack_require__(37);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1244,7 +1279,7 @@ var EntrylocalPage = /** @class */ (function () {
     };
     EntrylocalPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-entrylocal',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/entrylocal/entrylocal.html"*/'<ion-header>\n	<ion-navbar>\n		<ion-title>Eintrag</ion-title>\n		<ion-buttons end>\n			<button ion-button menuToggle>\n				<ion-icon name="menu"></ion-icon>\n			</button>\n		</ion-buttons>\n	</ion-navbar>\n</ion-header>\n<!--\n	<ion-content>\n	</ion-content>\n-->\n<ion-content padding>\n		<div *ngIf="item[13] == \'Unternehmen\'">\n			<span style="color: rgb(0, 152, 137);">Unternehmen</span>\n		</div>\n		<div *ngIf="item[13] == \'Initiative\'">\n			<span style="color: rgb(151,191,13);">Initiative</span>\n		</div>\n		<h2>{{item[4]}}</h2>\n		<p>{{item[5]}}</p>\n\n		<svg aria-hidden="true" data-prefix="fas" data-icon="globe-africa" style="width: 1em; height: 1em;" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm160 215.5v6.93c0 5.87-3.32 11.24-8.57 13.86l-15.39 7.7a15.485 15.485 0 0 1-15.53-.97l-18.21-12.14a15.52 15.52 0 0 0-13.5-1.81l-2.65.88c-9.7 3.23-13.66 14.79-7.99 23.3l13.24 19.86c2.87 4.31 7.71 6.9 12.89 6.9h8.21c8.56 0 15.5 6.94 15.5 15.5v11.34c0 3.35-1.09 6.62-3.1 9.3l-18.74 24.98c-1.42 1.9-2.39 4.1-2.83 6.43l-4.3 22.83c-.62 3.29-2.29 6.29-4.76 8.56a159.608 159.608 0 0 0-25 29.16l-13.03 19.55a27.756 27.756 0 0 1-23.09 12.36c-10.51 0-20.12-5.94-24.82-15.34a78.902 78.902 0 0 1-8.33-35.29V367.5c0-8.56-6.94-15.5-15.5-15.5h-25.88c-14.49 0-28.38-5.76-38.63-16a54.659 54.659 0 0 1-16-38.63v-14.06c0-17.19 8.1-33.38 21.85-43.7l27.58-20.69a54.663 54.663 0 0 1 32.78-10.93h.89c8.48 0 16.85 1.97 24.43 5.77l14.72 7.36c3.68 1.84 7.93 2.14 11.83.84l47.31-15.77c6.33-2.11 10.6-8.03 10.6-14.7 0-8.56-6.94-15.5-15.5-15.5h-10.09c-4.11 0-8.05-1.63-10.96-4.54l-6.92-6.92a15.493 15.493 0 0 0-10.96-4.54H199.5c-8.56 0-15.5-6.94-15.5-15.5v-4.4c0-7.11 4.84-13.31 11.74-15.04l14.45-3.61c3.74-.94 7-3.23 9.14-6.44l8.08-12.11c2.87-4.31 7.71-6.9 12.89-6.9h24.21c8.56 0 15.5-6.94 15.5-15.5v-21.7C359.23 71.63 422.86 131.02 441.93 208H423.5c-8.56 0-15.5 6.94-15.5 15.5z"></path></svg>\n		<a href="{{item[12]}}" target="_blank" style="text-decoration: none;">{{item[12]}}</a><br/>\n\n\n		<svg aria-hidden="true" data-prefix="fas" data-icon="map-marker-alt" style="width: 0.75em;" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"></path></svg>\n		{{item[8]}}, {{item[9]}} {{item[10]}}\n		<br>\n		<svg aria-hidden="true" data-prefix="fas" data-icon="route" style="width: 1em; height: 1em;" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M416 320h-96c-17.6 0-32-14.4-32-32s14.4-32 32-32h96s96-107 96-160-43-96-96-96-96 43-96 96c0 25.5 22.2 63.4 45.3 96H320c-52.9 0-96 43.1-96 96s43.1 96 96 96h96c17.6 0 32 14.4 32 32s-14.4 32-32 32H185.5c-16 24.8-33.8 47.7-47.3 64H416c52.9 0 96-43.1 96-96s-43.1-96-96-96zm0-256c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zM96 256c-53 0-96 43-96 96s96 160 96 160 96-107 96-160-43-96-96-96zm0 128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"></path></svg>\n		<a (click)=\'openNav()\'>Routenplaner<br/></a>\n		<p *ngIf="item[30] !== undefined">Ungefähre Entfernung vom Standort: {{item[30]}} km</p>\n		<br/>\n		<div *ngFor="let tag of tags" style="\n		font-size: 1em;\n		display: inline-block;\n		background: #eaeaea;\n		color: #333;\n		border-radius: 0.3em;\n		padding: 0.2em 0.4em;\n		margin-right: 0.4em;" (click)=\'searchTag(tag)\'>\n			#{{tag}}\n		</div>\n</ion-content>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/entrylocal/entrylocal.html"*/,
+            selector: 'page-entrylocal',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/entrylocal/entrylocal.html"*/'<ion-header>\n	<ion-navbar>\n		<ion-title>Eintrag</ion-title>\n		<ion-buttons end>\n			<button ion-button menuToggle>\n				<ion-icon name="menu"></ion-icon>\n			</button>\n		</ion-buttons>\n	</ion-navbar>\n</ion-header>\n<!--\n	<ion-content>\n	</ion-content>\n-->\n<ion-content padding>\n		<div *ngIf="item[13] == \'Unternehmen\'">\n			<span style="color: rgb(0, 152, 137);">Unternehmen</span>\n		</div>\n		<div *ngIf="item[13] == \'Initiative\'">\n			<span style="color: rgb(151,191,13);">Initiative</span>\n		</div>\n		<h2>{{item[4]}}</h2>\n		<p>{{item[5]}}</p>\n\n		<svg aria-hidden="true" data-prefix="fas" data-icon="globe-africa" style="width: 1em; height: 1em;" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm160 215.5v6.93c0 5.87-3.32 11.24-8.57 13.86l-15.39 7.7a15.485 15.485 0 0 1-15.53-.97l-18.21-12.14a15.52 15.52 0 0 0-13.5-1.81l-2.65.88c-9.7 3.23-13.66 14.79-7.99 23.3l13.24 19.86c2.87 4.31 7.71 6.9 12.89 6.9h8.21c8.56 0 15.5 6.94 15.5 15.5v11.34c0 3.35-1.09 6.62-3.1 9.3l-18.74 24.98c-1.42 1.9-2.39 4.1-2.83 6.43l-4.3 22.83c-.62 3.29-2.29 6.29-4.76 8.56a159.608 159.608 0 0 0-25 29.16l-13.03 19.55a27.756 27.756 0 0 1-23.09 12.36c-10.51 0-20.12-5.94-24.82-15.34a78.902 78.902 0 0 1-8.33-35.29V367.5c0-8.56-6.94-15.5-15.5-15.5h-25.88c-14.49 0-28.38-5.76-38.63-16a54.659 54.659 0 0 1-16-38.63v-14.06c0-17.19 8.1-33.38 21.85-43.7l27.58-20.69a54.663 54.663 0 0 1 32.78-10.93h.89c8.48 0 16.85 1.97 24.43 5.77l14.72 7.36c3.68 1.84 7.93 2.14 11.83.84l47.31-15.77c6.33-2.11 10.6-8.03 10.6-14.7 0-8.56-6.94-15.5-15.5-15.5h-10.09c-4.11 0-8.05-1.63-10.96-4.54l-6.92-6.92a15.493 15.493 0 0 0-10.96-4.54H199.5c-8.56 0-15.5-6.94-15.5-15.5v-4.4c0-7.11 4.84-13.31 11.74-15.04l14.45-3.61c3.74-.94 7-3.23 9.14-6.44l8.08-12.11c2.87-4.31 7.71-6.9 12.89-6.9h24.21c8.56 0 15.5-6.94 15.5-15.5v-21.7C359.23 71.63 422.86 131.02 441.93 208H423.5c-8.56 0-15.5 6.94-15.5 15.5z"></path></svg>\n		<a href="{{item[12]}}" target="_blank" style="text-decoration: none;">{{item[12]}}</a><br/>\n\n\n		<svg aria-hidden="true" data-prefix="fas" data-icon="map-marker-alt" style="width: 0.75em;" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"></path></svg>\n		{{item[8]}}, {{item[9]}} {{item[10]}}\n		<br>\n		<svg aria-hidden="true" data-prefix="fas" data-icon="route" style="width: 1em; height: 1em;" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M416 320h-96c-17.6 0-32-14.4-32-32s14.4-32 32-32h96s96-107 96-160-43-96-96-96-96 43-96 96c0 25.5 22.2 63.4 45.3 96H320c-52.9 0-96 43.1-96 96s43.1 96 96 96h96c17.6 0 32 14.4 32 32s-14.4 32-32 32H185.5c-16 24.8-33.8 47.7-47.3 64H416c52.9 0 96-43.1 96-96s-43.1-96-96-96zm0-256c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zM96 256c-53 0-96 43-96 96s96 160 96 160 96-107 96-160-43-96-96-96zm0 128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"></path></svg>\n		<a (click)=\'openNav()\'>Routenplaner<br/></a>\n		<p *ngIf="item[30] !== undefined">Ungefähre Entfernung vom Standort: {{item[30]}} km</p>\n		<br/>\n		<div *ngFor="let tag of tags" style="\n		font-size: 1em;\n		display: inline-block;\n		background: #eaeaea;\n		color: #333;\n		border-radius: 0.3em;\n		padding: 0.2em 0.4em;\n		margin-right: 0.4em;" (click)=\'searchTag(tag)\'>\n			#{{tag}}\n		</div>\n</ion-content>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/entrylocal/entrylocal.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_launch_navigator__["a" /* LaunchNavigator */], __WEBPACK_IMPORTED_MODULE_3__ionic_storage__["b" /* Storage */]])
     ], EntrylocalPage);
@@ -1255,30 +1290,70 @@ var EntrylocalPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 96:
+/***/ 97:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TermsPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var TermsPage = /** @class */ (function () {
+    function TermsPage(navCtrl, platform) {
+        this.navCtrl = navCtrl;
+        this.platform = platform;
+        this.version = '1.2';
+    }
+    TermsPage.prototype.ionViewDidEnter = function () {
+    };
+    TermsPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-terms',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/terms/terms.html"*/'<ion-header>\n	<ion-navbar>\n		<ion-title>Informationen</ion-title>\n	</ion-navbar>\n</ion-header>\n\n<ion-content padding>\n	<p>Version {{version}}</p>\n	<p>Entwicklung im Auftrag der "Karte von morgen"</p>\n	<h2>Impressum</h2>\n	<p>Angaben gemäß § 5 TMG</p>\n	<p>Alexander Reiner <br> \n	Neuhofweg 4<br> \n	71729 Erdmannhausen <br> \n	</p>\n	<p><strong>Kontakt:</strong> <br>\n	Telefon: 015221355757<br>\n	E-Mail: <a href=\'mailto:alex@ithomies.de\'>alex@ithomies.de</a>\n	<br><br>\n\n	<h2>Privacy Policy</h2> <p> Alexander Reiner built the Karte von morgen app as a Free app. This SERVICE is provided by\n	Alexander Reiner at no cost and is intended for use as is.\n	</p> <p>This page is used to inform visitors regarding my policies with the collection, use, and disclosure\n	of Personal Information if anyone decided to use my Service.\n	</p> <p>If you choose to use my Service, then you agree to the collection and use of information in\n	relation to this policy. The Personal Information that I collect is used for providing and improving\n	the Service. I will not use or share your information with anyone except as described\n	in this Privacy Policy.\n	</p> <p>The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is\n	accessible at Karte von morgen unless otherwise defined in this Privacy Policy.\n	</p> <p><strong>Information Collection and Use</strong></p> <p>For a better experience, while using our Service, I may require you to provide us with certain\n	personally identifiable information, including but not limited to GPS. The information that I request will be retained on your device and is not collected by me in any way.\n	</p> <p>The app does use third party services that may collect information used to identify you.</p> <div><p>Link to privacy policy of third party service providers used by the app</p> <ul><!----><!----><!----><!----><!----><!----><!----><!----></ul></div> <p><strong>Log Data</strong></p> <p> I want to inform you that whenever you use my Service, in a case of\n	an error in the app I collect data and information (through third party products) on your phone\n	called Log Data. This Log Data may include information such as your device Internet Protocol (“IP”) address,\n	device name, operating system version, the configuration of the app when utilizing my Service,\n	the time and date of your use of the Service, and other statistics.\n	</p> <p><strong>Cookies</strong></p> <p>Cookies are files with a small amount of data that are commonly used as anonymous unique identifiers.\n	These are sent to your browser from the websites that you visit and are stored on your device\'s internal\n	memory.\n	</p> <p>This Service does not use these “cookies” explicitly. However, the app may use third party code and\n	libraries that use “cookies” to collect information and improve their services. You have the option to\n	either accept or refuse these cookies and know when a cookie is being sent to your device. If you choose\n	to refuse our cookies, you may not be able to use some portions of this Service.\n	</p> <p><strong>Service Providers</strong></p> <p> I may employ third-party companies and individuals due to the following reasons:</p> <ul><li>To facilitate our Service;</li> <li>To provide the Service on our behalf;</li> <li>To perform Service-related services; or</li> <li>To assist us in analyzing how our Service is used.</li></ul> <p> I want to inform users of this Service that these third parties have access to\n	your Personal Information. The reason is to perform the tasks assigned to them on our behalf. However,\n	they are obligated not to disclose or use the information for any other purpose.\n	</p> <p><strong>Security</strong></p> <p> I value your trust in providing us your Personal Information, thus we are striving\n	to use commercially acceptable means of protecting it. But remember that no method of transmission over\n	the internet, or method of electronic storage is 100% secure and reliable, and I cannot guarantee\n	its absolute security.\n	</p> <p><strong>Links to Other Sites</strong></p> <p>This Service may contain links to other sites. If you click on a third-party link, you will be directed\n	to that site. Note that these external sites are not operated by me. Therefore, I strongly\n	advise you to review the Privacy Policy of these websites. I have no control over\n	and assume no responsibility for the content, privacy policies, or practices of any third-party sites\n	or services.\n	</p> <p><strong>Children’s Privacy</strong></p> <p>These Services do not address anyone under the age of 13. I do not knowingly collect\n	personally identifiable information from children under 13. In the case I discover that a child\n	under 13 has provided me with personal information, I immediately delete this from\n	our servers. If you are a parent or guardian and you are aware that your child has provided us with personal\n	information, please contact me so that I will be able to do necessary actions.\n	</p> <p><strong>Changes to This Privacy Policy</strong></p> <p> I may update our Privacy Policy from time to time. Thus, you are advised to review\n	this page periodically for any changes. I will notify you of any changes by posting\n	the new Privacy Policy on this page. These changes are effective immediately after they are posted on\n	this page.\n	</p> <p><strong>Contact Us</strong></p> <p>If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact\n	me.\n	</p> <p>This privacy policy page was created at <a href="https://privacypolicytemplate.net" target="_blank">privacypolicytemplate.net</a>\n	and modified/generated by <a href="https://app-privacy-policy-generator.firebaseapp.com/" target="_blank">App\n		Privacy Policy Generator</a></p>\n\n	<ion-list>\n	</ion-list>\n</ion-content>\n\n<!--<ion-content>\n  <div id="mapevent" style="width:100%; height:100%;"></div>\n</ion-content>-->\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/terms/terms.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */]])
+    ], TermsPage);
+    return TermsPage;
+}());
+
+//# sourceMappingURL=terms.js.map
+
+/***/ }),
+
+/***/ 98:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_leaflet__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_leaflet__ = __webpack_require__(183);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_leaflet___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_leaflet__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_papaparse__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_papaparse__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_papaparse___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_papaparse__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_jquery__ = __webpack_require__(182);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_jquery__ = __webpack_require__(184);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_splash_screen__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_splash_screen__ = __webpack_require__(99);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_file__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_file_transfer__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_file_transfer__ = __webpack_require__(185);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ionic_storage__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__search_search__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ionic_native_diagnostic__ = __webpack_require__(185);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ionic_native_location_accuracy__ = __webpack_require__(186);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_background_geolocation__ = __webpack_require__(187);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ionic_native_network__ = __webpack_require__(188);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__ionic_native_native_geocoder__ = __webpack_require__(189);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__entrylocal_entrylocal__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__search_search__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ionic_native_diagnostic__ = __webpack_require__(187);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ionic_native_location_accuracy__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_background_geolocation__ = __webpack_require__(189);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ionic_native_network__ = __webpack_require__(190);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__ionic_native_native_geocoder__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__entrylocal_entrylocal__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__aboutus_aboutus__ = __webpack_require__(56);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1323,6 +1398,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+
 
 
 
@@ -1397,9 +1473,11 @@ var HomePage = /** @class */ (function () {
                 if (_this.map === undefined) {
                     console.log('8218 Setting View');
                     _this.map = __WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.map("map", { zoomControl: false }).setView([50.888, 10], 5.3);
+                    /*leaflet.control.zoom({
+                        position:'bottomright'
+                    }).addTo(this.map);*/
                     console.log('8218 Setting Card...');
-                    var token = 'pk.eyJ1IjoiYWxleHJlaW5lciIsImEiOiJjanBpb202N2ExOW4xM3hydWZoazk1YnU0In0.feMUrVZ3gEsFsFz6OUZsVw';
-                    __WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.tileLayer('http://a.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=' + token, {
+                    __WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
                         attributions: '<a class="osm attr" href=https://wikimediafoundation.org/wiki/Maps_Terms_of_Use> Wikimedia </a>',
                         maxZoom: 17
                     }).addTo(_this.map);
@@ -1535,6 +1613,7 @@ var HomePage = /** @class */ (function () {
             var div_popup = __WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.DomUtil.create('div', 'abcpopup');
             var self_1 = this;
             div_popup.innerHTML = '<b class="title" style="padding: 12px;">' + data[4] + '</b>';
+            //TEST div_popup.innerHTML = '<div style="display: inline-block;"><b class="title" style="padding: 12px;">' + data[4] +  '</b><img src="../../assets/imgs/arrow.svg" no-repeat style="height: 12px;"></div>';
             __WEBPACK_IMPORTED_MODULE_4_jquery__('b.title', div_popup).on('click', function () {
                 self_1.gotoEntry(data);
             });
@@ -1546,6 +1625,10 @@ var HomePage = /** @class */ (function () {
                 marker.bindPopup(popup);
             }
         }
+    };
+    HomePage.prototype.openInfoPage = function () {
+        console.log('8218 OpenInfoPage');
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_16__aboutus_aboutus__["a" /* AboutusPage */]);
     };
     HomePage.prototype.gotoEntry = function (event) {
         console.log('8218 GotoEntryPage');
@@ -1852,7 +1935,7 @@ var HomePage = /** @class */ (function () {
                                     var minlng = _this.statlong - 0.2;
                                     var maxlat = parseFloat(_this.statlat) + 0.2;
                                     var maxlng = parseFloat(_this.statlong) + 0.2;
-                                    var transurl = 'http://api.ofdb.io/v0/export/entries.csv?bbox=' + minlat + ',' + minlng + ',' + maxlat + ',' + maxlng;
+                                    var transurl = 'https://api.ofdb.io/v0/export/entries.csv?bbox=' + minlat + ',' + minlng + ',' + maxlat + ',' + maxlng;
                                     transfer.download(transurl, path + 'data.csv')
                                         .then(function (entry) {
                                         var url = entry.toURL();
@@ -1917,7 +2000,7 @@ var HomePage = /** @class */ (function () {
                                         _this.storage.set('day', new Date().getDate() + 3);
                                         _this.storage.set('month', new Date().getMonth());
                                         _this.storage.set('year', new Date().getFullYear());
-                                        var transurlall = 'http://api.ofdb.io/v0/export/entries.csv?bbox=47.497972542230855,0.7996758709088782,54.63407558981465,18.307256321725717';
+                                        var transurlall = 'https://api.ofdb.io/v0/export/entries.csv?bbox=47.497972542230855,0.7996758709088782,54.63407558981465,18.307256321725717';
                                         transfer.download(transurlall, path + 'alldata.csv')
                                             .then(function (entry) {
                                             var url = entry.toURL();
@@ -1954,7 +2037,7 @@ var HomePage = /** @class */ (function () {
     ], HomePage.prototype, "mapContainer", void 0);
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/home/home.html"*/'<ion-header>\n	<ion-navbar>\n		<ion-title>Karte</ion-title>\n		<ion-buttons end>\n			<button ion-button menuToggle>\n				<ion-icon name="menu"></ion-icon>\n			</button>\n		</ion-buttons>\n	</ion-navbar>\n</ion-header>\n\n<ion-content>\n	<ion-buttons class="leaflet-bottom leaflet-right" style="margin-bottom: 9px; margin-right: 9px;">\n		<p><button (click)=\'locationinput()\' ion-button icon-only style="width: 32px; height: 32px; padding: 8px; box-shadow: 1px 1px 5px rgba(0,0,0,.5);" color="light"><ion-icon name="ios-search"></ion-icon></button><br>\n		<button (click)=\'locationbutton()\' ion-button icon-only style="width: 32px; height: 32px; padding: 8px; box-shadow: 1px 1px 5px rgba(0,0,0,.5);" color="light"><img src="../../assets/imgs/location.svg" no-repeat></button><br>\n		<button (click)=\'zoomin()\' ion-button icon-only style="width: 32px; height: 32px; box-shadow: 1px 1px 5px rgba(0,0,0,.5);" color="light"><ion-icon name="md-add"></ion-icon></button>\n		</p>\n		<p style="margin-top: -21px;">\n		<button (click)=\'zoomout()\' ion-button icon-only style="width: 32px; height: 32px; box-shadow: 1px 1px 5px rgba(0,0,0,.5);" color="light"><ion-icon name="md-remove"></ion-icon></button>\n		</p>\n	</ion-buttons>\n	<div id="map" style="width:100%; height:100%;"></div>\n</ion-content>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/home/home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/home/home.html"*/'<ion-header>\n	<ion-navbar>\n		<ion-title>Karte</ion-title>\n		<ion-buttons end>\n			<button icon-only ion-button menuClose (click)="openInfoPage()">\n				<ion-icon name="ios-information-circle-outline"></ion-icon>\n			</button>\n		</ion-buttons>\n		</ion-navbar>\n	</ion-header>\n\n<ion-content>\n	<ion-buttons class="leaflet-bottom leaflet-right" style="margin-bottom: 9px; margin-right: 9px;">\n		<p><button (click)=\'locationinput()\' ion-button icon-only style="width: 30px; height: 30px; box-shadow: none !important; width: 30px; height: 30px; border: 2px solid rgba(0, 0, 0, 0.2); background-clip: padding-box; border-radius: 4px;" color="light"><ion-icon name="ios-search"></ion-icon></button><br>\n		<button (click)=\'locationbutton()\' ion-button icon-only style="width: 30px; height: 30px; box-shadow: none !important; width: 30px; height: 30px; border: 2px solid rgba(0, 0, 0, 0.2); background-clip: padding-box; border-radius: 4px;" color="light"><img src="../../assets/imgs/location.svg" no-repeat style="height: 12px;"></button><br>\n	\n		<button (click)=\'zoomin()\' ion-button icon-only style="width: 30px; height: 30px; box-shadow: none !important; width: 30px; height: 30px; border: 2px solid rgba(0, 0, 0, 0.2); background-clip: padding-box; border-radius: 4px;" color="light"><ion-icon name="md-add" style="height: 12px;"></ion-icon></button>\n		</p>\n		<p style="margin-top: -21px;">\n		<button (click)=\'zoomout()\' ion-button icon-only style="width: 30px; height: 30px; box-shadow: none !important; width: 30px; height: 30px; border: 2px solid rgba(0, 0, 0, 0.2); background-clip: padding-box; border-radius: 4px;" color="light"><ion-icon name="md-remove" style="height: 12px;"></ion-icon></button>\n</p>\n	</ion-buttons>\n	<div id="map" style="width:100%; height:100%;"></div>\n</ion-content>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Karte_von_morgen/src/pages/home/home.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* App */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_6__ionic_native_file__["a" /* File */], __WEBPACK_IMPORTED_MODULE_7__ionic_native_file_transfer__["a" /* FileTransfer */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */], __WEBPACK_IMPORTED_MODULE_8__ionic_storage__["b" /* Storage */], __WEBPACK_IMPORTED_MODULE_5__ionic_native_splash_screen__["a" /* SplashScreen */], __WEBPACK_IMPORTED_MODULE_10__ionic_native_diagnostic__["a" /* Diagnostic */], __WEBPACK_IMPORTED_MODULE_11__ionic_native_location_accuracy__["a" /* LocationAccuracy */], __WEBPACK_IMPORTED_MODULE_13__ionic_native_network__["a" /* Network */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */], __WEBPACK_IMPORTED_MODULE_12__ionic_native_background_geolocation__["a" /* BackgroundGeolocation */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_14__ionic_native_native_geocoder__["a" /* NativeGeocoder */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* MenuController */]])
     ], HomePage);
@@ -1962,68 +2045,6 @@ var HomePage = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=home.js.map
-
-/***/ }),
-
-/***/ 98:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EntryPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_launch_navigator__ = __webpack_require__(95);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_search__ = __webpack_require__(56);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var EntryPage = /** @class */ (function () {
-    function EntryPage(navCtrl, navParams, launchnavigator) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.launchnavigator = launchnavigator;
-        this.item = navParams.get('entry');
-        this.page = navParams.get('page');
-    }
-    EntryPage.prototype.ionViewDidLoad = function () {
-        console.log('8218 EntryPage');
-        this.tags = this.item[14].split(',');
-        this.tags.splice(this.tags.length - 1, 1);
-    };
-    EntryPage.prototype.openNav = function () {
-        console.log('8218 OpenNav');
-        this.launchnavigator.navigate([this.item[6], this.item[7]]); //6 & 7
-    };
-    EntryPage.prototype.searchTag = function (event) {
-        console.log('8218 Event: ' + event);
-        if (this.page == "home") {
-            this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_3__search_search__["a" /* SearchPage */], { searchterm: '#' + event });
-        }
-        else {
-            this.navCtrl.getPrevious().data.searchterm = '#' + event;
-            this.navCtrl.pop();
-        }
-    };
-    EntryPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-entry',template:/*ion-inline-start:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/entry/entry.html"*/'<ion-header>\n	<ion-navbar>\n		<ion-title>Eintrag</ion-title>\n	</ion-navbar>\n</ion-header>\n\n\n<ion-content padding>\n	<div *ngIf="item[13] == \'Unternehmen\'">\n		<span style="color: rgb(0, 152, 137);">Unternehmen</span>\n	</div>\n	<div *ngIf="item[13] == \'Initiative\'">\n		<span style="color: rgb(151,191,13);">Initiative</span>\n	</div>\n	<h2>{{item[4]}}</h2>\n	<p>{{item[5]}}</p>\n\n	<svg aria-hidden="true" data-prefix="fas" data-icon="globe-africa" style="width: 1em; height: 1em;" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm160 215.5v6.93c0 5.87-3.32 11.24-8.57 13.86l-15.39 7.7a15.485 15.485 0 0 1-15.53-.97l-18.21-12.14a15.52 15.52 0 0 0-13.5-1.81l-2.65.88c-9.7 3.23-13.66 14.79-7.99 23.3l13.24 19.86c2.87 4.31 7.71 6.9 12.89 6.9h8.21c8.56 0 15.5 6.94 15.5 15.5v11.34c0 3.35-1.09 6.62-3.1 9.3l-18.74 24.98c-1.42 1.9-2.39 4.1-2.83 6.43l-4.3 22.83c-.62 3.29-2.29 6.29-4.76 8.56a159.608 159.608 0 0 0-25 29.16l-13.03 19.55a27.756 27.756 0 0 1-23.09 12.36c-10.51 0-20.12-5.94-24.82-15.34a78.902 78.902 0 0 1-8.33-35.29V367.5c0-8.56-6.94-15.5-15.5-15.5h-25.88c-14.49 0-28.38-5.76-38.63-16a54.659 54.659 0 0 1-16-38.63v-14.06c0-17.19 8.1-33.38 21.85-43.7l27.58-20.69a54.663 54.663 0 0 1 32.78-10.93h.89c8.48 0 16.85 1.97 24.43 5.77l14.72 7.36c3.68 1.84 7.93 2.14 11.83.84l47.31-15.77c6.33-2.11 10.6-8.03 10.6-14.7 0-8.56-6.94-15.5-15.5-15.5h-10.09c-4.11 0-8.05-1.63-10.96-4.54l-6.92-6.92a15.493 15.493 0 0 0-10.96-4.54H199.5c-8.56 0-15.5-6.94-15.5-15.5v-4.4c0-7.11 4.84-13.31 11.74-15.04l14.45-3.61c3.74-.94 7-3.23 9.14-6.44l8.08-12.11c2.87-4.31 7.71-6.9 12.89-6.9h24.21c8.56 0 15.5-6.94 15.5-15.5v-21.7C359.23 71.63 422.86 131.02 441.93 208H423.5c-8.56 0-15.5 6.94-15.5 15.5z"></path></svg>\n	<a href="{{item[12]}}" target="_blank" style="text-decoration: none;">{{item[12]}}</a><br/>\n\n\n	<svg aria-hidden="true" data-prefix="fas" data-icon="map-marker-alt" style="width: 0.75em;" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"></path></svg>\n	{{item[8]}}, {{item[9]}} {{item[10]}}\n	<br>\n	<svg aria-hidden="true" data-prefix="fas" data-icon="route" style="width: 1em; height: 1em;" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M416 320h-96c-17.6 0-32-14.4-32-32s14.4-32 32-32h96s96-107 96-160-43-96-96-96-96 43-96 96c0 25.5 22.2 63.4 45.3 96H320c-52.9 0-96 43.1-96 96s43.1 96 96 96h96c17.6 0 32 14.4 32 32s-14.4 32-32 32H185.5c-16 24.8-33.8 47.7-47.3 64H416c52.9 0 96-43.1 96-96s-43.1-96-96-96zm0-256c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zM96 256c-53 0-96 43-96 96s96 160 96 160 96-107 96-160-43-96-96-96zm0 128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"></path></svg>\n	<a (click)=\'openNav()\'>Routenplaner<br/></a>\n	<p *ngIf="item[30] !== undefined">Ungefähre Entfernung vom Standort: {{item[30]}} km</p>\n	<br/>\n	<div *ngFor="let tag of tags" style="\n	font-size: 1em;\n	display: inline-block;\n	background: #eaeaea;\n	color: #333;\n	border-radius: 0.3em;\n	padding: 0.2em 0.4em;\n	margin-right: 0.4em;" (click)=\'searchTag(tag)\'>\n		#{{tag}}\n	</div>\n\n</ion-content>\n'/*ion-inline-end:"/Users/alex/Desktop/Apps/Fairtrade_Tabs/src/pages/entry/entry.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_launch_navigator__["a" /* LaunchNavigator */]])
-    ], EntryPage);
-    return EntryPage;
-}());
-
-//# sourceMappingURL=entry.js.map
 
 /***/ })
 

@@ -25717,10 +25717,22 @@ page-contact .data-table {
   min-width: 800px;
 }
 
-page-home .leaflet-touch .leaflet-bar {
-  border: none;
-  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+page-home .leaflet-bar {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+page-home .leaflet-control-zoom-in {
+  width: 30px;
+  height: 30px;
+  border-bottom: 1px;
+}
+
+page-home .leaflet-control-zoom-out {
+  width: 30px;
+  height: 30px;
 }
 
 .ios page-intro ion-slide, .md page-intro ion-slide {
