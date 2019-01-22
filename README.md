@@ -34,6 +34,11 @@ $ ionic cordova run android
 * [Launch Navigator](https://ionicframework.com/docs/native/launch-navigator/)
 * [Storage](https://ionicframework.com/docs/storage/)
 
+* sort-by:
+```
+$ npm install sort-by --save
+```
+
 * papaparse:
 ```
 $ npm install papaparse --save
