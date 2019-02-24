@@ -3,6 +3,10 @@ Die App zur Karte von morgen
 
 written with [IONIC-Framework](https://ionicframework.com/).
 
+License: 
+
+![](/resources/CC-BY-SA_icon.svg.png)
+
 
 ## Installation ##
 
