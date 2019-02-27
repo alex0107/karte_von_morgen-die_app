@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="de.alexreiner.kvm" version="1.2.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Karte von morgen</name>
+<widget id="de.alexreiner.kvm" version="1.2.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>von morgen</name>
     <description>Integration von der Karte von morgen</description>
     <author email="alex@ithomies.de" href="https://www.alexreiner.de/">Alexander Reiner</author>
     <content src="index.html" />
@@ -104,6 +104,7 @@
     <plugin name="cordova-plugin-nativegeocoder" spec="~3.1.3">
         <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Use geocoder service" />
     </plugin>
+    <plugin name="cordova-plugin-advanced-http" spec="2.0.4" />
     <engine name="ios" spec="^4.5.5" />
     <engine name="android" spec="7.1.4" />
 </widget>

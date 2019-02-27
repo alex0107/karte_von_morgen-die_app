@@ -7,6 +7,9 @@
     "files": {}
   },
   "installed_plugins": {
+    "cordova-plugin-advanced-http": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
     "cordova-plugin-android-permissions": {
       "PACKAGE_NAME": "de.alexreiner.kvm"
     },

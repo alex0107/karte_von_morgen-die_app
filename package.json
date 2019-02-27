@@ -29,6 +29,7 @@
     "@ionic-native/file": "^4.16.0",
     "@ionic-native/file-transfer": "^4.16.0",
     "@ionic-native/geolocation": "^4.17.0",
+    "@ionic-native/http": "^4.20.0",
     "@ionic-native/keyboard": "^4.17.0",
     "@ionic-native/launch-navigator": "^4.17.0",
     "@ionic-native/location-accuracy": "^4.17.0",
@@ -43,6 +44,7 @@
     "cordova-ios": "^4.5.5",
     "cordova-plugin-actionsheet": "2.3.3",
     "cordova-plugin-add-swift-support": "1.7.1",
+    "cordova-plugin-advanced-http": "2.0.4",
     "cordova-plugin-android-permissions": "1.0.0",
     "cordova-plugin-app-version": "0.1.9",
     "cordova-plugin-device": "^2.0.2",
@@ -70,12 +72,13 @@
     "leaflet.markercluster": "^1.4.1",
     "papaparse": "^4.6.1",
     "rxjs": "5.5.11",
+    "sort-by": "^1.2.0",
     "sw-toolbox": "3.6.0",
     "uk.co.workingedge.phonegap.plugin.launchnavigator": "4.2.2",
     "zone.js": "0.8.26"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "3.2.0",
+    "@ionic/app-scripts": "^3.2.1",
     "typescript": "~2.6.2"
   },
   "description": "An Ionic project",
@@ -116,7 +119,8 @@
       },
       "cordova-plugin-nativegeocoder": {
         "LOCATION_WHEN_IN_USE_DESCRIPTION": "Use geocoder service"
-      }
+      },
+      "cordova-plugin-advanced-http": {}
     },
     "platforms": [
       "ios",

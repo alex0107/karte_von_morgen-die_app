@@ -66,6 +66,9 @@
     "uk.co.workingedge.phonegap.plugin.launchnavigator": {
       "LOCATION_USAGE_DESCRIPTION": "This app requires access to your location for navigation purposes",
       "PACKAGE_NAME": "de.alexreiner.kvm"
+    },
+    "cordova-plugin-advanced-http": {
+      "PACKAGE_NAME": "de.alexreiner.kvm"
     }
   },
   "dependent_plugins": {

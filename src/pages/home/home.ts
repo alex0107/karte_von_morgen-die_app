@@ -3,6 +3,8 @@ import { NavController, Platform, App, LoadingController, AlertController, MenuC
 import leaflet from 'leaflet';
 import * as papa from 'papaparse';
 import * as $ from 'jquery';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
 
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { File } from '@ionic-native/file';
@@ -45,12 +47,19 @@ export class HomePage {
 	searchloc: any = 0;
 	ready: number = 0;
 	entryopen: any = 0;
+	globalentry: any;
+	searchterm: any;
 
-	constructor(public app: App, public navCtrl: NavController, private file: File, private transfer: FileTransfer, private platform: Platform, public storage: Storage, public splashScreen: SplashScreen, public diagnostic: Diagnostic, public locationAccuracy: LocationAccuracy, public network: Network, public elementRef: ElementRef, public backgroundGeolocation: BackgroundGeolocation, public loading: LoadingController, public alertCtrl: AlertController, public nativeGeocoder: NativeGeocoder, public menuCtrl: MenuController) 
+	constructor(public app: App, public navCtrl: NavController, private file: File, private transfer: FileTransfer, private platform: Platform, public storage: Storage, public splashScreen: SplashScreen, public diagnostic: Diagnostic, public locationAccuracy: LocationAccuracy, public network: Network, public elementRef: ElementRef, public backgroundGeolocation: BackgroundGeolocation, public loading: LoadingController, public alertCtrl: AlertController, public nativeGeocoder: NativeGeocoder, public menuCtrl: MenuController, public httpClient: HttpClient) 
 	{
 	}
 
-	ionViewDidEnter() {
+	async ionViewDidEnter() {
+		const inputs: any = document.getElementById("input").getElementsByTagName("INPUT");
+		inputs[0].disabled=true;
+		if(this.map !== undefined) {
+			this.map.invalidateSize(true);
+		}
 		this.platform.ready().then(() => {
 			if (this.entryopen === 1) {
 				this.entryopen = 0;
@@ -93,10 +102,17 @@ export class HomePage {
 					}).addTo(this.map);
 					this.markers = leaflet.layerGroup().addTo(this.map);
 				}
-
+				this.storage.get('searchtermforhome').then((term) => {
+					console.log('8218 8218 ' + term)
+					this.searchterm = term;
+				});
 				this.checkstorage();
 			}
 		});
+	}
+
+	swipe(event) {
+		console.log('8218 Event: ' + event);
 	}
 
 	zoomin() {
@@ -110,6 +126,8 @@ export class HomePage {
 	async checkstorage() {
 		console.log('8218 CheckStorage....Storage');
 		var storeentry = await this.storage.get('entryhome');
+		var globaldata = await this.storage.get('globaldata');
+		console.log('8218 GlobData: ' + JSON.parse(globaldata));
 		if (storeentry !== null) {
 			this.entry = storeentry;
 			this.storage.set('entryhome', undefined);
@@ -130,6 +148,45 @@ export class HomePage {
 			this.map.setView([parseFloat(this.entry[6]), parseFloat(this.entry[7])], 15);
 			this.map.invalidateSize(true);
 			this.entry = null;
+		} else if (globaldata == 1) {
+			this.map.invalidateSize(true);
+			var path = "";
+			if (this.platform.is('ios')) {
+				path = this.file.dataDirectory + 'data';
+			} else if (this.platform.is('android')) {
+				path = this.file.externalDataDirectory + 'data/';
+			}
+
+			this.file.readAsText(path, 'tempdata')
+				.then(fileStr => {
+					this.map.remove();
+					this.map = leaflet.map("map", {zoomControl: false}).setView([50.888, 10], 5.3);
+					leaflet.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
+						attributions: '<a class="osm attr" href=https://wikimediafoundation.org/wiki/Maps_Terms_of_Use> Wikimedia </a>',
+						maxZoom: 17
+					}).addTo(this.map);
+
+					this.markers = leaflet.layerGroup().addTo(this.map);
+
+					for(let globdata of JSON.parse(fileStr)) {
+						if (globdata[13] == 'Initiative')
+						{
+							this.addmymarkers(globdata, 1, 0);
+						}
+						else if (globdata[13] == 'Unternehmen')
+						{
+							this.addmymarkers(globdata, 0, 0);
+						}
+						else //Events?
+						{
+						}
+					}
+
+				
+				});
+
+
+
 		} else {
 			console.log('8218 CheckStorage....Loadmap');
 			this.loadmap(10);
@@ -144,7 +201,7 @@ export class HomePage {
 
 	openSearchPage() {
 		console.log('8218 OpenSearchPage');
-		this.app.getRootNav().setRoot(SearchPage);
+		this.navCtrl.parent.select(0);
 	}
 
 	addmarker() {
@@ -164,18 +221,34 @@ export class HomePage {
 			.then(fileStr => {
 				let parsedData = papa.parse(fileStr).data;
 				parsedData.splice(0, 1);
+				/*
+				for(let parst of parsedData) {
+					parsedData[30] = this.distance(this.oldlat, this.oldlong, parst[6], parst[7], "K");
+				}
+
+				parsedData.sort((data1, data2) => {
+					if (data1[30] < data2[30]) return -1;
+					if (data1[30] > data2[30]) return 1;
+					return 0;
+				});*/
+
+				let k = 0;
 				console.log('8218 Addmarker Parse');
 				for(let parst of parsedData) {
-					if (parst[13] == 'Initiative') 
-					{
-						this.addmymarkers(parst, 1, 0);
-					} 
-					else if (parst[13] == 'Unternehmen')
-					{
-						this.addmymarkers(parst, 0, 0);
-					}
-					else //Events?
-					{
+					if(k < 200) {
+						if (parst[13] == 'Initiative') 
+						{
+							this.addmymarkers(parst, 1, 0);
+							k++;
+						} 
+						else if (parst[13] == 'Unternehmen')
+						{
+							this.addmymarkers(parst, 0, 0);
+							k++;
+						}
+						else //Events?
+						{
+						}
 					}
 				}
 
@@ -211,9 +284,7 @@ export class HomePage {
 			var marker = leaflet.marker([data[6], data[7]], {icon: Icon}).addTo(this.markers);
 			var div_popup = leaflet.DomUtil.create('div', 'abcpopup');
 			let self = this;
-			div_popup.innerHTML = '<b class="title" style="padding: 12px;">' + data[4] +  '</b>';
-
-			//TEST div_popup.innerHTML = '<div style="display: inline-block;"><b class="title" style="padding: 12px;">' + data[4] +  '</b><img src="../../assets/imgs/arrow.svg" no-repeat style="height: 12px;"></div>';
+			div_popup.innerHTML = '<b class="title" >' + data[4] +  '<font size="5" style="padding-left: 5px;">></font></b>';
 
 			$('b.title', div_popup).on('click', function() {
 				self.gotoEntry(data);
@@ -227,9 +298,31 @@ export class HomePage {
 		}
 	}
 
+	distance(lat1:number, lon1:number, lat2:number, lon2:number, unit:any) {
+		if ((lat1 == lat2) && (lon1 == lon2)) {
+			return 0;
+		}
+		else {
+			var radlat1 = Math.PI * lat1/180;
+			var radlat2 = Math.PI * lat2/180;
+			var theta = lon1-lon2;
+			var radtheta = Math.PI * theta/180;
+			var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+			if (dist > 1) {
+				dist = 1;
+			}
+			dist = Math.acos(dist);
+			dist = dist * 180/Math.PI;
+			dist = dist * 60 * 1.1515;
+			if (unit=="K") { dist = dist * 1.609344 }
+			if (unit=="N") { dist = dist * 0.8684 }
+			return dist;
+		}
+	}
+
 	openInfoPage() {
 		console.log('8218 OpenInfoPage');
-                this.navCtrl.push(AboutusPage);
+		this.navCtrl.push(AboutusPage);
 	}
 
 	gotoEntry(event) {
@@ -240,14 +333,49 @@ export class HomePage {
 	}
 
 	locationbutton() {
+		let path = null;
+
+		if (this.platform.is('ios')) {
+			path = this.file.dataDirectory + 'data/';
+		} else if (this.platform.is('android')) {
+			path = this.file.externalDataDirectory + 'data/';
+		}
+
+		this.file.removeFile(path, 'tempdata').then( data => {
+			console.log('8218 Removed Tempdata');
+		});
+
+		this.storage.set('globaldata', undefined);
 		console.log('8218 Locate-Button was pressed');
 		this.storage.set('entryhome', undefined);
 		this.popup = 0;
 		this.searchloc = 1;
+		this.map.remove();
+		this.map = leaflet.map("map", {zoomControl: false}).setView([50.888, 10], 5.3);
+		leaflet.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
+			attributions: '<a class="osm attr" href=https://wikimediafoundation.org/wiki/Maps_Terms_of_Use> Wikimedia </a>',
+			maxZoom: 17
+		}).addTo(this.map);
+
+		this.markers = leaflet.layerGroup().addTo(this.map);
 		this.loadmap(17);
 	}
 
 	async loadmap(zoommax:any) {
+		let path = null;
+
+		if (this.platform.is('ios')) {
+			path = this.file.dataDirectory + 'data/';
+		} else if (this.platform.is('android')) {
+			path = this.file.externalDataDirectory + 'data/';
+		}
+
+		this.file.removeFile(path, 'tempdata').then( data => {
+			console.log('8218 Removed Tempdata');
+		});
+
+		this.storage.set('globaldata', undefined);
+
 		this.oldloclat = await this.storage.get('oldlat');
                 this.oldloclong = await this.storage.get('oldlong');
 
@@ -417,6 +545,15 @@ export class HomePage {
 							this.nativeGeocoder.forwardGeocode(data.location, options)
 								.then((coordinates: NativeGeocoderForwardResult[]) => {
 									console.log('8218 The coordinates are latitude=' + coordinates[0].latitude + ' and longitude=' + coordinates[0].longitude);
+									this.map.remove();
+									this.map = leaflet.map("map", {zoomControl: false}).setView([50.888, 10], 5.3);
+									leaflet.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
+										attributions: '<a class="osm attr" href=https://wikimediafoundation.org/wiki/Maps_Terms_of_Use> Wikimedia </a>',
+										maxZoom: 17
+									}).addTo(this.map);
+
+									this.markers = leaflet.layerGroup().addTo(this.map);
+
 									var redIcon = new leaflet.Icon({
 										iconUrl: '../../assets/imgs/marker_location.png',
 										iconSize: [25, 41],
@@ -465,22 +602,26 @@ export class HomePage {
 		if(((await this.storage.get('day') <= new Date().getDate() || await this.storage.get('month') !== new Date().getMonth()) && this.deleted === 0) || this.oldlat-0.1 >= this.statlat || this.oldlat+0.1 <= this.statlat || this.oldlong-0.1 >= this.statlong || this.oldlong+0.1 <= this.statlong)
 		{
 			if(this.network.type === 'none') {
-				alert('Die App muss neue Einträge herunterladen, bitte Wlan oder mobile Daten aktivieren!');
+				alert('Die App muss neue Einträge herunterladen, bitte Wlan oder mobile Daten bei nächster Gelegenheit aktivieren!');
+				this.storage.set('day', new Date().getDate() + 1);
+				this.storage.set('month', new Date().getMonth());
+				this.storage.set('year', new Date().getFullYear());
+				this.deleted = 1;
 				this.downloadData();
+			} else {
+				console.log('8218 DeleteDir ' + path);
+				await this.file.removeRecursively(path, 'data').then(
+					(files) => {
+						console.log('8218 Allright, Deleted succes');
+						this.deleted = 1;
+						this.oldlat = this.statlat;
+						this.oldlong = this.statlong;
+						this.downloadData();
+					}).catch(
+						(err) => {
+							console.log('8218 DeleteDir Error: ' + JSON.stringify(err));
+						});
 			}
-
-			console.log('8218 DeleteDir ' + path);
-			await this.file.removeRecursively(path, 'data').then(
-				(files) => {
-					console.log('8218 Allright, Deleted succes');
-					this.deleted = 1;
-					this.oldlat = this.statlat;
-					this.oldlong = this.statlong;
-					this.downloadData();
-				}).catch(
-					(err) => {
-						console.log('8218 DeleteDir Error: ' + JSON.stringify(err));
-					});
 		}
 
 		if (this.platform.is('ios')) {
@@ -516,6 +657,7 @@ export class HomePage {
 						let minlng:number = this.statlong - 0.2;
 						let maxlat:number = parseFloat(this.statlat) + 0.2;
 						let maxlng:number = parseFloat(this.statlong) + 0.2;
+					
 						let transurl = 'https://api.ofdb.io/v0/export/entries.csv?bbox=' + minlat + ',' + minlng  +',' + maxlat + ',' + maxlng;
 						transfer.download(transurl, path + 'data.csv')
 							.then(entry => {
@@ -526,7 +668,6 @@ export class HomePage {
 							}).catch((err) => {
 								console.log('8218 Error Checkdir: ' + JSON.stringify(err));	
 							});
-
 						this.deleted = 0;
 					}
 				});
@@ -577,11 +718,12 @@ export class HomePage {
 						this.storage.set('day', new Date().getDate() + 3);
 						this.storage.set('month', new Date().getMonth());
 						this.storage.set('year', new Date().getFullYear());
+						
 						let transurlall = 'https://api.ofdb.io/v0/export/entries.csv?bbox=47.497972542230855,0.7996758709088782,54.63407558981465,18.307256321725717';
 						transfer.download(transurlall, path + 'alldata.csv')
 							.then(entry => {
 								let url = entry.toURL();
-								console.log('8218 CheckDir: alldata.csv path ' + url);
+								console.log('8218 CheckDir: alldata.json path ' + url);
 							});
 					}
 				});

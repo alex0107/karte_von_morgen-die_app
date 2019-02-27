@@ -42,6 +42,7 @@ export class MyApp {
 	}
 
 	getstorage() {
+		this.storage.set('searchtermforhome', undefined);
 		this.storage.get('introShown').then((result) => {
 
 			console.log('8218 IntroShown ' + result);

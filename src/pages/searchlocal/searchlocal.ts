@@ -4,6 +4,7 @@ import leaflet from 'leaflet';
 import * as papa from 'papaparse';
 import { File } from '@ionic-native/file';
 import { Storage } from '@ionic/storage';
+import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder';
 
 import { HomePage } from '../home/home';
 import { EntrylocalPage } from '../entrylocal/entrylocal';
@@ -15,11 +16,13 @@ import { AboutusPage } from '../aboutus/aboutus';
 	templateUrl: 'searchlocal.html'
 })
 export class SearchlocalPage {
+	@ViewChild('search') search : any;
 
 	items: any =[];
 	parsedData: any =[];
 	loader:any;
 	filterdata:any =[];
+	globaldata:any =[];
 	searchTerm:any;
 	show: number = 0;	
 	loaded: number = 0;
@@ -27,8 +30,9 @@ export class SearchlocalPage {
 	oldlat:any;
 	oldlong:any;
 	oldsearchterm:any;
+	city:any =[];
 
-	constructor(public navCtrl: NavController, private file: File, private platform: Platform, public storage: Storage, public loading: LoadingController, public navParams: NavParams, public app: App)
+	constructor(public navCtrl: NavController, private file: File, private platform: Platform, public storage: Storage, public loading: LoadingController, public navParams: NavParams, public app: App, public nativeGeocoder: NativeGeocoder)
 	{
 	}
 
@@ -41,12 +45,16 @@ export class SearchlocalPage {
 		this.oldsearchterm = await this.storage.get('searchterm');
 		var searchtag = await this.storage.get('searchtag');
 
+		this.search.setFocus();
+		
 		if(searchtag !== null) {
 			this.searchTerm = searchtag;
 		}
 
 		console.log('8218 Old: ' + this.oldsearchterm + ' New: ' + this.searchTerm);
 
+		this.storage.set('searchtermforhome', this.searchTerm);
+		
 		if(this.searchTerm !== undefined) {
 			if(this.searchTerm !== this.oldsearchterm) {
 				this.setFilteredItems();
@@ -60,11 +68,15 @@ export class SearchlocalPage {
 		this.navCtrl.push(AboutusPage);
 	}
 
-
+	setlocation(ort: any) {
+		this.storage.set('lat', ort[1]);
+		this.storage.set('lng', ort[2]);
+	}
 
 	ionViewDidEnter() {
 		this.platform.ready().then(() => {
 			this.setoldloc();
+
 		});
 	}
 
@@ -76,7 +88,8 @@ export class SearchlocalPage {
 		this.loader.present().then(() => {
 			let path = null;
 			console.log('8218 SearchTerm: ' + this.searchTerm);
-			if(this.searchTerm !== undefined){
+			this.globaldata = null;
+			if((this.searchTerm !== undefined) && (this.searchTerm !== null) && (this.searchTerm !== '')){
 				if (this.platform.is('ios')) {
 					path = this.file.dataDirectory + 'data/';
 				} else if (this.platform.is('android')) {
@@ -95,6 +108,7 @@ export class SearchlocalPage {
 						let tag = 0;
 
 						this.storage.set('searchterm', this.searchTerm);
+						this.storage.set('searchtermforhome', this.searchTerm);
 
 						if(this.searchTerm.includes('#')){
 							this.searchTerm = this.searchTerm.replace('#', '');
@@ -126,24 +140,34 @@ export class SearchlocalPage {
 								console.log('8218 UNDEFINED');
 							}
 						});
-
+						
 						this.filterdata.sort((data1, data2) => {
 							if (data1[30] < data2[30]) return -1;
 							if (data1[30] > data2[30]) return 1;
 							return 0;
 						});
-						
+
+						this.file.writeFile(path,'tempdata' , this.filterdata, {replace: true}).then((success) => {
+							console.log("8218 File Writed Successfully", success);
+						}).catch((err) => {
+							console.log("8218 Error Occured While Writing File", err);
+						});
+
+						this.storage.set('globaldata', 1);
+
 						if (tag === 1) {
 							this.searchTerm = '#' + this.searchTerm;
 						}
 						console.log('8218 AllData Ready!');
 						this.loader.dismiss();
 						this.show = 1;
-
+						this.getcity();
+						//this.globaldat();
 
 					}).catch((err)=> {
 						console.log('8218 Addmarker Err: ' + err.message);
 						this.loader.dismiss();
+						this.globaldat();
 					});
 
 		} else {
@@ -152,6 +176,109 @@ export class SearchlocalPage {
 			}
 
 			this.loaded = 1;
+		});
+	}
+
+	getcity() {
+		let options: NativeGeocoderOptions = {
+			useLocale: true,
+			maxResults: 5
+		};
+		this.nativeGeocoder.forwardGeocode(this.searchTerm, options)
+			.then((coordinates: NativeGeocoderForwardResult[]) => {
+				console.log('8218 The coordinates are ' + JSON.stringify(coordinates[0]) + ' latitude=' + coordinates[0].latitude + ' and longitude=' + coordinates[0].longitude);
+				this.city[0] = this.searchTerm;
+				this.city[1] = coordinates[0].latitude;
+				this.city[2] = coordinates[0].longitude;
+				console.log('8218 Term: ' + this.city[0]);
+			});
+	}
+
+	globaldat() {
+		this.loader = this.loading.create({
+			content: 'Durchsuche...globale Einträge',
+		});
+		this.loader.present().then(() => {
+			let path = null;
+			if (this.platform.is('ios')) {
+				path = this.file.dataDirectory + 'data/';
+			} else if (this.platform.is('android')) {
+				path = this.file.externalDataDirectory + 'data/';
+			}
+
+			this.file.readAsText(path, 'alldata.csv') 
+				.then(fileStr => {
+					console.log('8218 AllData Search Start Parsing...')
+					this.parsedData = papa.parse(fileStr).data;
+					this.parsedData.splice(0, 1);
+
+					console.log('8218 AllData Search ready');
+					console.log('8218 AllData Filtering...');
+
+					let tag = 0;
+
+					if(this.searchTerm.includes('#')){
+						this.searchTerm = this.searchTerm.replace('#', '');
+						tag = 1;
+						console.log('8218 SearchTerm: ' + this.searchTerm);
+					}
+
+					this.globaldata = this.parsedData.filter((item) => {
+						if(item[4] !== undefined && item[14] !== undefined && item[10] !== undefined){
+							if(tag === 1) {
+								if(item[14].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) {
+									item[30] = this.distance(this.oldlat, this.oldlong, item[6], item[7], "K").toFixed(2);
+									return item[14].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+								}
+							} else {
+								if(item[10].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) {
+									item[30] = this.distance(this.oldlat, this.oldlong, item[6], item[7], "K").toFixed(2); //Ortschaft durchsuchen
+									return item[10].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+								} else if(item[14].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) {
+									item[30] = this.distance(this.oldlat, this.oldlong, item[6], item[7], "K").toFixed(2); //Tag durchsuchen
+									return item[14].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+								} else if(item[4].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1) {
+									item[30] = this.distance(this.oldlat, this.oldlong, item[6], item[7], "K").toFixed(2);
+									this.entfernung.push((this.distance(this.oldlat, this.oldlong, item[6], item[7], "K")).toFixed(2)); //Titel durchsuchen
+									return item[4].toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+								}
+							}
+						} else {
+							console.log('8218 UNDEFINED');
+						}
+					});
+
+					this.globaldata.sort((data1, data2) => {
+						//console.log('8218 Data1: ' + data1[30] + ' Data2: ' + data2[30]);
+						if (data1[30] <= data2[30]) {
+							return -1;
+						} else if (data1[30] >= data2[30]) {
+							return 1;
+						} else {			
+							return 0;
+						}
+					});
+
+					this.file.writeFile(path,'tempdata' , this.globaldata, {replace: true}).then((success) => {  
+						console.log("8218 File Writed Successfully", success);  
+					}).catch((err) => {  
+						console.log("8218 Error Occured While Writing File", err);  
+					});
+
+					this.storage.set('globaldata', 1);
+
+					if (tag === 1) {
+						this.searchTerm = '#' + this.searchTerm;
+					}
+					console.log('8218 AllData Ready!');
+					this.show = 1;
+					this.loader.dismiss();
+
+
+				}).catch((err)=> {
+					console.log('8218 Addmarker Err: ' + err.message);
+					this.loader.dismiss();
+				});
 		});
 	}
 
