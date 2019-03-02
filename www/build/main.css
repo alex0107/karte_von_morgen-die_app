@@ -25744,6 +25744,11 @@ page-home .leaflet-control-zoom-out {
   width: auto !important;
 }
 
+.ios page-intro #online, .md page-intro #online {
+  height: 65vh !important;
+  width: auto !important;
+}
+
 .ios page-intro .swiper-pagination-bullet-active, .md page-intro .swiper-pagination-bullet-active {
   background: #000000;
 }

@@ -147,10 +147,14 @@ export class SearchlocalPage {
 							return 0;
 						});
 
-						this.file.writeFile(path,'tempdata' , this.filterdata, {replace: true}).then((success) => {
+						this.file.removeFile(path, 'tempdata').then( data => {
+							console.log('8218 Removed Tempdata');
+						});
+
+						this.file.writeFile(path,'tempdata' , this.filterdata).then((success) => {
 							console.log("8218 File Writed Successfully", success);
 						}).catch((err) => {
-							console.log("8218 Error Occured While Writing File", err);
+							console.log("8218 Error Occured While Writing File", err.message);
 						});
 
 						this.storage.set('globaldata', 1);
@@ -259,10 +263,14 @@ export class SearchlocalPage {
 						}
 					});
 
-					this.file.writeFile(path,'tempdata' , this.globaldata, {replace: true}).then((success) => {  
+					this.file.removeFile(path, 'tempdata').then( data => {
+						console.log('8218 Removed Tempdata');
+					});
+
+					this.file.writeFile(path,'tempdata' , JSON.stringify(this.globaldata)).then((success) => {  
 						console.log("8218 File Writed Successfully", success);  
 					}).catch((err) => {  
-						console.log("8218 Error Occured While Writing File", err);  
+						console.log("8218 Error Occured While Writing File" +  JSON.stringify(err));  
 					});
 
 					this.storage.set('globaldata', 1);
@@ -276,7 +284,7 @@ export class SearchlocalPage {
 
 
 				}).catch((err)=> {
-					console.log('8218 Addmarker Err: ' + err.message);
+					console.log('8218 Addmarker Err: ' + JSON.stringify(err));
 					this.loader.dismiss();
 				});
 		});

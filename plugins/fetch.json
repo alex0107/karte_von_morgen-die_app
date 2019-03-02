@@ -114,7 +114,7 @@
   "cordova-plugin-mauron85-background-geolocation": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-mauron85-background-geolocation@2.3.6"
+      "id": "cordova-plugin-mauron85-background-geolocation@alphacordova-plugin-mauron85-background-geolocation@alpha"
     },
     "is_top_level": true,
     "variables": {}

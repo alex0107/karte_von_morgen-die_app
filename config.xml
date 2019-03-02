@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="de.alexreiner.kvm" version="1.2.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>von morgen</name>
+    <name>Karte von morgen</name>
     <description>Integration von der Karte von morgen</description>
     <author email="alex@ithomies.de" href="https://www.alexreiner.de/">Alexander Reiner</author>
     <content src="index.html" />
@@ -97,7 +97,6 @@
     <plugin name="cordova-plugin-android-permissions" spec="~1.0.0" />
     <plugin name="cordova.plugins.diagnostic" spec="~4.0.10" />
     <plugin name="cordova-sqlite-storage" spec="~2.5.1" />
-    <plugin name="cordova-plugin-mauron85-background-geolocation" spec="~2.3.6" />
     <plugin name="cordova-plugin-request-location-accuracy" spec="~2.2.3" />
     <plugin name="cordova-plugin-network-information" spec="~2.0.1" />
     <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="~4.2.2" />
@@ -105,6 +104,7 @@
         <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Use geocoder service" />
     </plugin>
     <plugin name="cordova-plugin-advanced-http" spec="2.0.4" />
+    <plugin name="cordova-plugin-mauron85-background-geolocation" spec="2.3.6" />
     <engine name="ios" spec="^4.5.5" />
     <engine name="android" spec="7.1.4" />
 </widget>
