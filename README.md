@@ -1,6 +1,10 @@
 # Karte von morgen - die App
 Die App zur Karte von morgen
 
+Available at 
+
+ <a href="https://itunes.apple.com/us/app/karte-von-morgen/id1444338148?l=de&ls=1&mt=8"><img src="/resources/app-store-brands.svg" height=50px></img></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://play.google.com/store/apps/details?id=de.alexreiner.kvm"><img src="/resources/google-play-brands.svg" height=50px></img></a>
+
 written with [IONIC-Framework](https://ionicframework.com/).
 
 License: 
@@ -62,4 +66,4 @@ $ npm install @types/jquery
 
 ## Used Map ##
 
-We are using the map "streets" from [Mapbox](https://www.mapbox.com/)
+We are using OpenStreetMap.
